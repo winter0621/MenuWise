@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/mw_surface_card"
+    android:elevation="2dp"
+    android:orientation="vertical"
+    android:padding="8dp">
+
+    <ImageView
+        android:id="@+id/recipe_image"
+        android:layout_width="match_parent"
+        android:layout_height="124dp"
+        android:contentDescription="@string/recipes"
+        android:scaleType="centerCrop"
+        tools:src="@drawable/recipe_mixed_salad" />
+
+    <TextView
+        android:id="@+id/recipe_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:textColor="@color/mw_ink"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        tools:text="Mixed Salad" />
+</LinearLayout>

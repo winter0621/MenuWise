@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_relative_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/mw_canvas"
+    tools:context=".frontend.home.fragments.ProfileFragment">
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nested_scroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="20dp"
+            android:paddingTop="20dp"
+            android:paddingEnd="20dp"
+            android:paddingBottom="28dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/nav_profile"
+                android:textColor="@color/mw_ink"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/mw_primary_card"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="20dp">
+
+                <ImageView
+                    android:id="@+id/user_img"
+                    android:layout_width="68dp"
+                    android:layout_height="68dp"
+                    android:contentDescription="@string/username"
+                    android:src="@drawable/ph_avatar_man" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/user_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:textColor="@color/white"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        tools:text="Alex Chen" />
+
+                    <TextView
+                        android:id="@+id/edit_profile_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:paddingEnd="8dp"
+                        android:text="@string/edit_profile"
+                        android:textColor="@color/mw_primary_soft"
+                        android:textSize="14sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/user_info"
+                android:textColor="@color/mw_ink"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:id="@+id/profile_view_nested_relative_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/mw_surface_card"
+                android:elevation="2dp"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/age_textview"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/age"
+                            android:textColor="@color/mw_muted"
+                            android:textSize="13sp" />
+
+                        <TextView
+                            android:id="@+id/user_Age_val"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:textColor="@color/mw_ink"
+                            android:textSize="20sp"
+                            android:textStyle="bold"
+                            tools:text="26" />
+                    </LinearLayout>
+
+                    <View
+                        android:id="@+id/profile_ver_line_age_height"
+                        android:layout_width="1dp"
+                        android:layout_height="52dp"
+                        android:background="@color/mw_primary_soft" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/height_textview"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/height"
+                            android:textColor="@color/mw_muted"
+                            android:textSize="13sp" />
+
+                        <TextView
+                            android:id="@+id/user_height_val"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:textColor="@color/mw_ink"
+                            android:textSize="20sp"
+                            android:textStyle="bold"
+                            tools:text="170 cm" />
+                    </LinearLayout>
+
+                    <View
+                        android:id="@+id/profile_ver_line_height_weight"
+                        android:layout_width="1dp"
+                        android:layout_height="52dp"
+                        android:background="@color/mw_primary_soft" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/weight_textview"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/weight"
+                            android:textColor="@color/mw_muted"
+                            android:textSize="13sp" />
+
+                        <TextView
+                            android:id="@+id/user_weight_val"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:textColor="@color/mw_ink"
+                            android:textSize="20sp"
+                            android:textStyle="bold"
+                            tools:text="62 kg" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <View
+                    android:id="@+id/profile_hor_line_gender_type"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="18dp"
+                    android:background="@color/mw_primary_soft" />
+
+                <TextView
+                    android:id="@+id/gender_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/gender"
+                    android:textColor="@color/mw_muted"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/user_gender_val"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:textColor="@color/mw_ink"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    tools:text="Female" />
+
+                <View
+                    android:id="@+id/profile_hor_line_type_desired_weight"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@color/mw_primary_soft" />
+
+                <TextView
+                    android:id="@+id/type_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/type"
+                    android:textColor="@color/mw_muted"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/user_type_val"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:textColor="@color/mw_ink"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    tools:text="Lose weight" />
+
+                <TextView
+                    android:id="@+id/desired_weight_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
+                    android:text="@string/desired_weight"
+                    android:textColor="@color/mw_muted"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/user_desired_weight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:textColor="@color/mw_primary"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    tools:text="58 kg" />
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <LinearLayout
+        android:id="@+id/wait_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#B3F6F7F4"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <ProgressBar
+            android:id="@+id/wait_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="@string/wait"
+            android:textColor="@color/mw_muted"
+            android:textSize="14sp" />
+    </LinearLayout>
+</FrameLayout>

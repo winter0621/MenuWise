@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- MenuWise V2 palette: neutral surfaces with semantic nutrition accents. -->
+    <color name="mw_canvas">#F6F7F4</color>
+    <color name="mw_surface">#FFFFFFFF</color>
+    <color name="mw_ink">#17211B</color>
+    <color name="mw_muted">#637068</color>
+    <color name="mw_primary">#176B45</color>
+    <color name="mw_primary_soft">#DDEFE5</color>
+    <color name="mw_calories">#E4892E</color>
+    <color name="mw_protein">#3674B8</color>
+    <color name="mw_carbs">#8B62A3</color>
+    <color name="mw_fat">#CF5D59</color>
+    <color name="green_500">#1B5E20</color> <!-- Primary Color -->
+    <color name="green_light">#4C8C4A</color> <!-- Primary Light -->
+    <color name="green_dark">#003300</color> <!-- Primary Dark -->
+    <color name="orange_700">#F57C00</color> <!-- Secondary Color -->
+    <color name="orange_light">#FFAD42</color> <!-- Secondary Light -->
+    <color name="orange_dark">#BB4D00</color> <!-- Secondary Dark -->
+    <color name="black">#FF000000</color>
+    <color name="light_black">#CD000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="warm_grey">#9E9A9A</color>
+    <color name="red">#FF0000</color>
+    <color name="dark_red">#C10A0A</color>
+    <color name="white_blue">#2A3c58</color>
+    <color name="grey">#808080</color>
+    <color name="grey_dark">#5d5d5d</color>
+</resources>

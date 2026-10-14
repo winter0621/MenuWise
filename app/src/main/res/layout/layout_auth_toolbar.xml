@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/custom_auth_toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/toolbar_height"
+    android:background="@android:color/transparent"
+    android:elevation="@dimen/elevation_toolbar">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/back_img_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/small_spacing"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_round_back_24"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/toolbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/medium_spacing"
+            android:ellipsize="end"
+            android:fontFamily="@font/lato_bold"
+            android:maxLines="1"
+            android:textColor="@color/white"
+            android:textSize="@dimen/medium_text_size" />
+
+    </LinearLayout>
+
+</androidx.appcompat.widget.Toolbar>

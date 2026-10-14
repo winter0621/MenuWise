@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/mw_canvas"
+    android:fillViewport="true"
+    tools:context=".frontend.home.fragments.HomeFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingStart="20dp"
+        android:paddingTop="16dp"
+        android:paddingEnd="20dp"
+        android:paddingBottom="28dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/home_greeting"
+            android:textColor="@color/mw_ink"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:id="@+id/layout_date_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/image_button_prev_date"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@android:color/transparent"
+                android:contentDescription="@string/content_previous_day"
+                android:padding="8dp"
+                android:src="@drawable/ic_round_back_24"
+                app:tint="@color/mw_muted" />
+
+            <TextView
+                android:id="@+id/text_calendar_date"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textColor="@color/mw_muted"
+                android:textSize="14sp"
+                tools:text="Wednesday, Oct 13" />
+
+            <ImageButton
+                android:id="@+id/image_button_next_date"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@android:color/transparent"
+                android:contentDescription="@string/content_next_day"
+                android:padding="8dp"
+                android:rotation="180"
+                android:src="@drawable/ic_round_back_24"
+                android:visibility="invisible"
+                app:tint="@color/mw_muted" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/mw_primary_card"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="20dp">
+
+            <RelativeLayout
+                android:layout_width="132dp"
+                android:layout_height="132dp">
+
+                <ProgressBar
+                    android:id="@+id/progress_home_circular"
+                    android:layout_width="132dp"
+                    android:layout_height="132dp"
+                    android:indeterminateOnly="false"
+                    android:progressDrawable="@drawable/dw_determinate_circular_progress"
+                    tools:progress="70" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/texT_progress_home"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:textSize="30sp"
+                        android:textStyle="bold"
+                        tools:text="1,280" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="@string/home_remaining_unit"
+                        android:textColor="@color/mw_primary_soft"
+                        android:textSize="11sp" />
+                </LinearLayout>
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/home_today"
+                    android:textColor="@color/mw_primary_soft"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="@string/home_daily_target"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:text="@string/calories_remaining"
+                    android:textColor="@color/mw_primary_soft"
+                    android:textSize="13sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_record_meal"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="16dp"
+            android:contentDescription="@string/content_record_meal"
+            android:text="@string/home_record_meal"
+            android:textAllCaps="false"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:backgroundTint="@color/mw_calories"
+            app:cornerRadius="16dp"
+            app:icon="@drawable/ic_menu_camera_48"
+            app:iconGravity="textStart"
+            app:iconPadding="10dp"
+            app:iconTint="@null" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/home_nutrition_summary"
+            android:textColor="@color/mw_ink"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:id="@+id/layout_components_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/mw_surface_card"
+            android:elevation="2dp"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <include android:id="@+id/layout_cals_item" layout="@layout/layout_components_item" />
+            <include android:id="@+id/layout_proteins_item" layout="@layout/layout_components_item" />
+            <include android:id="@+id/layout_carbs_item" layout="@layout/layout_components_item" />
+            <include android:id="@+id/layout_fats_item" layout="@layout/layout_components_item" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/home_recent_meal"
+            android:textColor="@color/mw_ink"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:id="@+id/card_last_captured"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/mw_surface_card"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="14dp"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/image_last_captured"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:contentDescription="@string/dish_image"
+                android:scaleType="centerCrop"
+                tools:src="@drawable/recipe_mixed_salad" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="14dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/text_last_captured"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/mw_ink"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    tools:text="Chicken salad" />
+
+                <TextView
+                    android:id="@+id/text_last_captured_placeholder"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:text="@string/last_tracked_image"
+                    android:textColor="@color/mw_muted"
+                    android:textSize="13sp" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

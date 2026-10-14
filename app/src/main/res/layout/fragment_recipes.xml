@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/mw_canvas"
+    android:orientation="vertical"
+    android:paddingStart="20dp"
+    android:paddingTop="20dp"
+    android:paddingEnd="20dp"
+    tools:context=".frontend.home.fragments.RecipesFragment">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/recipes"
+        android:textColor="@color/mw_ink"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="@string/recommendation_subtitle"
+        android:textColor="@color/mw_muted"
+        android:textSize="14sp" />
+
+    <GridView
+        android:id="@+id/recipes_gridview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="14dp"
+        android:clipToPadding="false"
+        android:columnWidth="150dp"
+        android:horizontalSpacing="12dp"
+        android:numColumns="2"
+        android:paddingBottom="20dp"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="12dp" />
+</LinearLayout>
