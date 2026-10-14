@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="content_go_back">返回上一步</string>
+    <string name="capture_failed">无法读取照片，请重试</string>
+    <string name="quick_add_water">饮水</string>
+    <string name="quick_capture_food">识别食物</string>
+
+    <!-- 认证/登录界面 -->
+    <string name="auth_toolbar_title">%1$s</string>
+    <string name="login">登录</string>
+    <string name="register">注册</string>
+    <string name="welcome_msg">欢迎来到</string>
+    <string name="something_wrong">出错了！！</string>
+    <string name="auth_option">认证选项</string>
+    <string name="fill_data">请填写资料</string>
+    <string name="password">密码</string>
+    <string name="login_now">立即登录</string>
+    <string name="or_label">或</string>
+    <string name="forget_password">忘记密码？</string>
+    <string name="user_data">用户资料</string>
+    <string name="user_info">用户信息</string>
+    <string name="user_goal">用户目标</string>
+    <string name="confirm_password">确认密码</string>
+    <string name="ok">确定</string>
+    <string name="height_cm">身高/cm</string>
+    <string name="weight_km">体重/kg</string>
+    <string name="desired_weight_km">目标体重/kg</string>
+    <string name="male">男</string>
+    <string name="female">女</string>
+    <string name="lose_weight">减重</string>
+    <string name="gain_weight">增重</string>
+    <string name="fitness_tracker">健身追踪</string>
+    <string name="patient_treatment">患者治疗</string>
+    <string name="future_goal">未来目标</string>
+    <string name="error_title">错误</string>
+    <string name="error_message">请填写空白项</string>
+    <string name="error_confirm_message">确认密码必须与密码一致</string>
+    <string name="error_gender_message">请选择您的性别</string>
+    <string name="error_weight_message">请输入您的目标体重</string>
+    <string name="error_future_goal_message">请选择您的未来目标</string>
+    <string name="reset_password">重置密码</string>
+    <string name="reset_message">我们将向您发送邮件以重置密码</string>
+    <string name="send">发送</string>
+    <string name="confirmation_reset_msg">邮件发送成功</string>
+    <string name="confirmation_logged_msg">登录成功</string>
+    <string name="confirmation_register_msg">注册成功</string>
+    <string name="already_has_account">已有账号，请登录</string>
+    <string name="failed_to_login">用户名或密码错误</string>
+    <string name="failed_reset_msg">邮箱错误！</string>
+    <string name="no_internet_connection">无网络连接</string>
+
+    <!-- 导航栏标签 -->
+    <string name="app_name">Wisemenu</string>
+    <string name="app_full_name">Wisemenu AI</string>
+    <string name="app_name_first_part">Wise</string>
+    <string name="app_name_second_part">Menu</string>
+    <string name="home">首页</string>
+    <string name="diary">日记</string>
+    <string name="recipes">食谱</string>
+    <string name="diet_calender">饮食日历</string>
+    <string name="reminder">提醒</string>
+    <string name="photo_album">相册</string>
+    <string name="others">其他</string>
+    <string name="settings">设置</string>
+    <string name="help">帮助</string>
+    <string name="sync">同步</string>
+    <string name="logout">退出登录</string>
+    <string name="verified">已验证</string>
+    <string name="username">Mark Elliot Zuckerberg</string>
+
+    <!-- 底部导航栏专用 (对应 bottom_nav_menu.xml) -->
+    <!-- 注意：为了兼容我们之前的修改，保留 nav_ 开头的键 -->
+    <string name="nav_home">首页</string>
+    <string name="nav_recipes">食谱</string>
+    <string name="nav_reports">报告</string>
+    <string name="nav_recommend">推荐</string>
+    <string name="nav_profile">我的</string>
+    <string name="home_greeting">今天吃得怎么样？</string>
+    <string name="home_today">今日饮食</string>
+    <string name="home_record_meal">记录一餐</string>
+    <string name="home_record_meal_desc">拍照识别、相册导入或手动补录</string>
+    <string name="home_nutrition_summary">营养摄入</string>
+    <string name="home_recent_meal">最近记录</string>
+    <string name="home_no_meal">还没有记录饮食</string>
+    <string name="home_remaining_unit">千卡可摄入</string>
+    <string name="home_daily_target">今日目标</string>
+    <string name="content_previous_day">前一天</string>
+    <string name="content_next_day">后一天</string>
+    <string name="content_record_meal">记录一餐</string>
+    <string name="recommendation_subtitle">基于今日能量目标为你推荐</string>
+    <string name="recommendation_energy">能量</string>
+    <string name="reminders_subtitle">按时吃饭，保持健康节律</string>
+
+    <!-- 首页片段 -->
+    <string name="calories_remaining">剩余卡路里</string>
+    <string name="calories">卡路里</string>
+    <string name="carbs">碳水</string>
+    <string name="fats">脂肪</string>
+    <string name="proteins">蛋白质</string>
+    <string name="cal_val">/%1$d 卡</string>
+    <string name="gram_val">/%1$.2f 克</string>
+    <string name="last_tracked_image">最近追踪的图片</string>
+
+    <!-- 个人中心片段 -->
+    <string name="name">姓名</string>
+    <string name="email">邮箱</string>
+    <string name="user_name_profile">%1$s</string>
+    <string name="age">年龄</string>
+    <string name="age_val">%1$d</string>
+    <string name="height">身高</string>
+    <string name="height_val">%1$.1f 厘米</string>
+    <string name="weight">体重</string>
+    <string name="weight_val">%1$.1f 公斤</string>
+    <string name="type">类型</string>
+    <string name="type_val">%1$s</string>
+    <string name="gender">性别</string>
+    <string name="gender_val">%1$s</string>
+    <string name="desired_weight">目标体重</string>
+    <string name="desired_weight_val">%1$.1f 公斤</string>
+    <string name="edit_profile">编辑资料</string>
+    <string name="date">%1$s</string>
+
+    <!-- 报告片段 -->
+    <string name="total_nutrition_title">本周每克总营养摄入</string>
+    <string name="report_title">周报信息</string>
+    <string name="report_gain_weight_title">- 增重量：</string>
+    <string name="report_lose_weight_title">- 减重量：</string>
+
+    <string name="report_positive_gained_weight">- 本周体重增加，这对您的目标非常有益</string>
+    <string name="report_negative_gained_weight">- 本周体重增加，这与您的目标相反</string>
+    <string name="report_positive_lose_weight">- 本周体重减轻，这对您的目标非常有益</string>
+    <string name="report_negative_lose_weight">- 本周体重减轻，这与您的目标相反</string>
+    <string name="report_careful_message">- 请注意，在接下来的几周里控制饮食</string>
+    <string name="report_keep_message">- 干得好，继续保持现在的饮食习惯</string>
+    <string name="no_meals_in_database">目前没有任何饮食记录</string>
+    <string name="no_meals_in_database_week">本周没有任何饮食记录</string>
+    <string name="wait">请稍候…</string>
+
+    <!-- 地区 -->
+    <string name="local_eg">EG</string>
+    <string name="dish_image">菜品图片</string>
+
+    <!-- 笔记 -->
+    <string name="add_new_note">添加新笔记</string>
+    <string name="title_text">标题</string>
+    <string name="description_text">描述</string>
+    <string name="save_note">保存笔记</string>
+    <string name="title_Diary">日记</string>
+
+    <!-- 提醒片段 -->
+    <string name="set">设置</string>
+    <string name="cancel">取消</string>
+    <string name="breakfast">早餐</string>
+    <string name="time">00:00</string>
+    <string name="lunch">午餐</string>
+    <string name="dinner">晚餐</string>
+    <string name="snack">零食</string>
+
+    <string name="food_name">食物名称：</string>
+    <string name="food_calories">食物热量：</string>
+    <string name="food_recommendations">食物推荐：</string>
+    <string name="breakfast_image">早餐图片</string>
+    <string name="lunch_image">午餐图片</string>
+    <string name="dinner_image">晚餐图片</string>
+    <string name="snack_image">零食图片</string>
+
+</resources>

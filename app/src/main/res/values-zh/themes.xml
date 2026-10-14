@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?><resources>
+    <!--
+       此文件仅在 "夜间模式 + 中文环境" 下生效。
+       它会覆盖默认的夜间主题，以提供更适合中文的字体。
+    -->
+
+    <!-- 主应用主题 (中文优化版) -->
+    <style name="Theme.Careium" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- 继承原有的颜色 -->
+        <item name="colorPrimary">@color/green_500</item>
+        <item name="colorPrimaryVariant">@color/green_dark</item>
+        <item name="colorSecondary">@color/orange_700</item>
+        <item name="colorSecondaryVariant">@color/orange_dark</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:statusBarColor">?attr/colorPrimary</item>
+
+        <!-- 【关键修改】为中文界面替换字体并加粗 -->
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!-- 认证页面主题 (中文优化版) -->
+    <style name="Theme.auth" parent="Theme.AppCompat.NoActionBar">
+        <!-- 继承原有的颜色 -->
+        <item name="colorSecondary">@color/orange_700</item>
+        <item name="colorSecondaryVariant">@color/orange_dark</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:statusBarColor">?attr/colorPrimary</item>
+
+        <!-- 【关键修改】为中文界面替换字体并加粗 -->
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+</resources>
