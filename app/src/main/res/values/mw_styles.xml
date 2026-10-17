@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="mw_border">#DDE5DF</color>
+    <color name="mw_soft_surface">#EDF4EE</color>
+    <style name="Widget.MenuWise.Button" parent="Widget.MaterialComponents.Button">
+        <item name="cornerRadius">14dp</item>
+        <item name="android:minHeight">52dp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:insetTop">4dp</item>
+        <item name="android:insetBottom">4dp</item>
+        <item name="android:elevation">0dp</item>
+    </style>
+    <style name="Widget.MenuWise.Secondary" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="cornerRadius">14dp</item>
+        <item name="strokeColor">@color/mw_border</item>
+        <item name="android:textColor">@color/mw_ink</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:minHeight">52dp</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    <style name="Widget.MenuWise.TextButton" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">@color/mw_action_text</item>
+        <item name="android:minHeight">48dp</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    <style name="Widget.MenuWise.Input" parent="Widget.AppCompat.EditText">
+        <item name="android:background">@drawable/mw_input</item>
+        <item name="android:padding">14dp</item>
+        <item name="android:minHeight">52dp</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/mw_ink</item>
+        <item name="android:textColorHint">@color/mw_muted</item>
+    </style>
+</resources>

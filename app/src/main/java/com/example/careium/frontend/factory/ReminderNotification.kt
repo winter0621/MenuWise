@@ -27,7 +27,7 @@ class ReminderNotification : BroadcastReceiver() {
             .build()
 
         val manager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        manager.notify(notificationID, builder)
+        manager.notify(intent?.getIntExtra("notification_id", notificationID) ?: notificationID, builder)
 
     }
 }

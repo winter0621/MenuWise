@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent" android:fillViewport="true"
+    android:background="@color/mw_canvas">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="vertical" android:padding="20dp">
+        <Button android:id="@+id/tools_back" android:layout_width="wrap_content" android:layout_height="48dp" android:text="返回" />
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="饮食工具" android:textSize="28sp" android:textStyle="bold" android:textColor="@color/mw_ink" />
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginTop="18dp" android:text="本周回顾 · 实际记录" android:textSize="20sp" android:textStyle="bold" android:textColor="@color/mw_ink" />
+        <TextView android:id="@+id/tools_week" android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginTop="8dp" android:padding="16dp" android:background="@drawable/mw_surface_card"
+            android:textColor="@color/mw_ink" android:textSize="15sp" android:lineSpacingExtra="5dp" />
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginTop="24dp" android:text="未来七天采购清单" android:textSize="20sp" android:textStyle="bold" android:textColor="@color/mw_ink" />
+        <TextView android:id="@+id/tools_shopping_summary" android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginTop="8dp" android:textColor="@color/mw_muted" android:textSize="14sp" />
+        <LinearLayout android:id="@+id/tools_shopping" android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginTop="8dp" android:orientation="vertical" android:background="@drawable/mw_surface_card" android:padding="12dp" />
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

@@ -1,61 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/custom_action_bar"
-    android:layout_width="match_parent"
-    android:layout_height="64dp"
-    android:background="@color/mw_primary"
-    android:elevation="0dp"
-    android:paddingStart="8dp"
-    android:paddingEnd="8dp">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
-
-        <ImageButton
-            android:id="@+id/image_menu"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:background="@android:color/transparent"
-            android:contentDescription="@string/others"
-            android:padding="12dp"
-            android:src="@drawable/ic_round_menu_24"
-            app:tint="@color/white" />
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/app_full_name"
-                android:textColor="@color/white"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="1dp"
-                android:text="@string/home_today"
-                android:textColor="@color/mw_primary_soft"
-                android:textSize="12sp" />
+<androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/custom_action_bar" android:layout_width="match_parent" android:layout_height="64dp" android:background="@color/mw_primary" android:elevation="0dp" android:paddingStart="8dp" android:paddingEnd="8dp">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:gravity="center_vertical" android:orientation="horizontal">
+        <ImageButton android:id="@+id/image_menu" android:layout_width="48dp" android:layout_height="48dp" android:background="@android:color/transparent" android:contentDescription="@string/others" android:padding="12dp" android:src="@drawable/ic_round_menu_24" app:tint="@color/white" />
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/app_full_name" android:textColor="@color/white" android:textSize="20sp" android:textStyle="bold" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="1dp" android:text="@string/home_today" android:textColor="@color/mw_primary_soft" android:textSize="12sp" />
         </LinearLayout>
-
-        <ImageButton
-            android:id="@+id/image_notifications"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:background="@android:color/transparent"
-            android:contentDescription="@string/reminder"
-            android:padding="12dp"
-            android:src="@drawable/ic_outline_notifications_24"
-            app:tint="@color/white" />
+        <ImageButton android:id="@+id/image_quick_add" android:layout_width="48dp" android:layout_height="48dp" android:background="?attr/selectableItemBackgroundBorderless" android:contentDescription="快捷记录" android:padding="12dp" android:src="@drawable/ic_round_add_24" app:tint="@color/white" />
+        <ImageButton android:id="@+id/image_notifications" android:layout_width="48dp" android:layout_height="48dp" android:background="@android:color/transparent" android:contentDescription="@string/reminder" android:padding="12dp" android:src="@drawable/ic_outline_notifications_24" app:tint="@color/white" />
     </LinearLayout>
 </androidx.appcompat.widget.Toolbar>

@@ -25,9 +25,11 @@ class Authenticator : AppCompatActivity(), AuthenticationInterface {
     private val authCompatActivity = AuthenticationActivity.instance as AppCompatActivity
     companion object {
         val user = User.getInstance() // singleton object
-        val titleViewModel = ViewModelProviders
-            .of(AuthenticationActivity.instance as FragmentActivity)
-            .get(AuthTitleViewModel::class.java)
+        // Resolve from the current Activity only when the UI needs the title model.
+        val titleViewModel: AuthTitleViewModel
+            get() = ViewModelProviders
+                .of(AuthenticationActivity.instance as FragmentActivity)
+                .get(AuthTitleViewModel::class.java)
     }
 
     /**

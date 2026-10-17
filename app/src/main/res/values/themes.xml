@@ -1,41 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-<!--  Base application theme.  -->
-<style name="Theme.Careium" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-<!--  App Theme Colors  -->
-<item name="colorPrimary">@color/mw_primary</item>
-<item name="colorPrimaryVariant">@color/green_dark</item>
-<item name="colorSecondary">@color/mw_calories</item>
-<item name="colorSecondaryVariant">@color/mw_primary_soft</item>
-<item name="colorOnPrimary">@color/white</item>
-<item name="colorOnSecondary">@color/white</item>
-<item name="android:textColor">@color/mw_ink</item>
-<!--  Status bar color.  -->
-<item name="android:statusBarColor">?attr/colorPrimary</item>
-<!--  Customize your theme here.  -->
-<item name="android:fontFamily">sans</item>
-</style>
-<style name="Theme.auth" parent="Theme.AppCompat.NoActionBar">
-<!--  App Theme Colors  -->
-<item name="colorSecondary">@color/orange_700</item>
-<item name="colorSecondaryVariant">@color/orange_light</item>
-<item name="colorOnPrimary">@color/white</item>
-<item name="colorOnSecondary">@color/white</item>
-<item name="android:textColor">@color/white</item>
-<!--  Status bar color.  -->
-<item name="android:statusBarColor">?attr/colorPrimary</item>
-<!--  Customize your theme here.  -->
-<item name="android:fontFamily">@font/comicz</item>
-</style>
-<style name="Theme.white" parent="Theme.AppCompat.NoActionBar">
-<!--  App Theme Colors  -->
-<item name="colorPrimary">@color/white</item>
-<item name="colorSecondary">@color/green_500</item>
-<item name="android:fontFamily">@font/comicz</item>
-</style>
-<style name="Theme.custom_button" parent="Theme.AppCompat.NoActionBar">
-<!--  App Theme Colors  -->
-<item name="colorPrimary">@color/white_blue</item>
-<item name="colorSecondary">@color/green_500</item>
-<item name="android:fontFamily">@font/comicz</item>
-</style>
+    <style name="Theme.MenuWise.Base" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/mw_primary</item>
+        <item name="colorPrimaryVariant">@color/mw_primary</item>
+        <item name="colorSecondary">@color/mw_calories</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <item name="colorSurface">@color/mw_surface</item>
+        <item name="colorOnSurface">@color/mw_ink</item>
+        <item name="android:colorBackground">@color/mw_canvas</item>
+        <item name="android:textColor">@color/mw_ink</item>
+        <item name="android:textColorHint">@color/mw_muted</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:statusBarColor">@color/mw_primary</item>
+        <item name="android:navigationBarColor">@color/mw_canvas</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightNavigationBar">@bool/mw_light_navigation</item>
+        <item name="android:windowSoftInputMode">adjustResize</item>
+        <item name="materialButtonStyle">@style/Widget.MenuWise.Button</item>
+    </style>
+    <style name="Theme.auth" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorSecondary">@color/orange_700</item>
+        <item name="colorSecondaryVariant">@color/orange_light</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:statusBarColor">?attr/colorPrimary</item>
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
+    <style name="Theme.white" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/white</item>
+        <item name="colorSecondary">@color/green_500</item>
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
+    <style name="Theme.custom_button" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/white_blue</item>
+        <item name="colorSecondary">@color/green_500</item>
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
+    <style name="Theme.Careium" parent="Theme.MenuWise.Base" />
 </resources>

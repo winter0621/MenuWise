@@ -45,7 +45,7 @@
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:background="@android:color/transparent"
-                    android:contentDescription="@string/content_previous_day"
+                    android:contentDescription="上一周"
                     android:padding="8dp"
                     android:src="@drawable/ic_round_back_24"
                     app:tint="@color/mw_muted" />
@@ -65,7 +65,7 @@
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:background="@android:color/transparent"
-                    android:contentDescription="@string/content_next_day"
+                    android:contentDescription="下一周"
                     android:padding="8dp"
                     android:rotation="180"
                     android:src="@drawable/ic_round_back_24"
@@ -77,7 +77,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:text="@string/total_nutrition_title"
+                android:text="实际摄入汇总"
                 android:textColor="@color/mw_ink"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -138,7 +138,7 @@
                         android:textColor="@color/mw_primary"
                         android:textSize="24sp"
                         android:textStyle="bold"
-                        tools:text="0.3 KG" />
+                        tools:text="1800 千卡" />
                 </LinearLayout>
 
                 <View
@@ -162,6 +162,18 @@
                     android:textColor="@color/mw_primary"
                     android:textSize="14sp" />
             </LinearLayout>
+            <LinearLayout
+                android:id="@+id/report_day_items"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="vertical" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/report_open_plan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="打开饮食计划，记录实际份量" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 

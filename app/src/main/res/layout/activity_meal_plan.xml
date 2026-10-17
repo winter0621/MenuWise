@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="match_parent" android:background="@color/mw_canvas" android:fillViewport="true">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="20dp" android:paddingBottom="32dp">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical">
+            <com.google.android.material.button.MaterialButton android:id="@+id/plan_back" style="@style/Widget.MenuWise.TextButton" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="‹ 返回" />
+            <Space android:layout_width="12dp" android:layout_height="1dp" />
+            <com.google.android.material.button.MaterialButton android:id="@+id/plan_history" style="@style/Widget.MenuWise.TextButton" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="已存计划" />
+        </LinearLayout>
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="安排每日饮食" android:textSize="28sp" android:textColor="@color/mw_ink" android:lineSpacingExtra="3dp" android:textStyle="bold" android:layout_marginTop="12dp" />
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="先设定目标，再安排食物；吃完后记录实际份量。" android:textSize="14sp" android:textColor="@color/mw_muted" android:lineSpacingExtra="3dp" android:layout_marginTop="8dp" android:layout_marginBottom="12dp" />
+        <com.google.android.material.button.MaterialButton android:id="@+id/plan_date" style="@style/Widget.MenuWise.Secondary" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="选择日期" />
+        <com.google.android.material.button.MaterialButton android:id="@+id/plan_edit_profile" style="@style/Widget.MenuWise.TextButton" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="设置每日目标" />
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:background="@drawable/mw_surface_card" android:padding="18dp" android:layout_marginTop="16dp" android:id="@+id/plan_form">
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="身体资料与目标" android:textSize="18sp" android:textColor="@color/mw_ink" android:lineSpacingExtra="3dp" android:textStyle="bold" android:layout_marginBottom="8dp" />
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="用于估算每日需求，仅保存在本机。" android:textSize="13sp" android:textColor="@color/mw_muted" android:lineSpacingExtra="3dp" />
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="年龄（岁）" android:textSize="13sp" android:textColor="@color/mw_muted" android:layout_marginTop="12dp" android:labelFor="@id/plan_age" />
+            <EditText android:id="@+id/plan_age" style="@style/Widget.MenuWise.Input" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:hint="年龄（18–80岁）" android:inputType="number" android:maxLength="6" />
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="身高（厘米）" android:textSize="13sp" android:textColor="@color/mw_muted" android:layout_marginTop="12dp" android:labelFor="@id/plan_height" />
+            <EditText android:id="@+id/plan_height" style="@style/Widget.MenuWise.Input" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:hint="身高（厘米）" android:inputType="numberDecimal" android:maxLength="6" />
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="体重（千克）" android:textSize="13sp" android:textColor="@color/mw_muted" android:layout_marginTop="12dp" android:labelFor="@id/plan_weight" />
+            <EditText android:id="@+id/plan_weight" style="@style/Widget.MenuWise.Input" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:hint="体重（千克）" android:inputType="numberDecimal" android:maxLength="6" />
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="用于代谢估算的性别" android:textSize="13sp" android:textColor="@color/mw_muted" android:lineSpacingExtra="3dp" android:layout_marginTop="14dp" />
+            <Spinner android:id="@+id/plan_sex" android:layout_width="match_parent" android:layout_height="56dp" android:background="@drawable/mw_input" android:padding="8dp" />
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="日常活动量" android:textSize="13sp" android:textColor="@color/mw_muted" android:lineSpacingExtra="3dp" android:layout_marginTop="14dp" />
+            <Spinner android:id="@+id/plan_activity" android:layout_width="match_parent" android:layout_height="56dp" android:background="@drawable/mw_input" android:padding="8dp" />
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="饮食目标" android:textSize="13sp" android:textColor="@color/mw_muted" android:lineSpacingExtra="3dp" android:layout_marginTop="14dp" />
+            <Spinner android:id="@+id/plan_goal" android:layout_width="match_parent" android:layout_height="56dp" android:background="@drawable/mw_input" android:padding="8dp" />
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="每日目标（千卡，可选）" android:textSize="13sp" android:textColor="@color/mw_muted" android:layout_marginTop="12dp" android:labelFor="@id/plan_target" />
+            <EditText android:id="@+id/plan_target" style="@style/Widget.MenuWise.Input" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:hint="每日目标千卡（留空自动估算）" android:inputType="number" android:maxLength="5" />
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="分餐比例" android:textSize="18sp" android:textColor="@color/mw_ink" android:lineSpacingExtra="3dp" android:textStyle="bold" android:layout_marginBottom="8dp" />
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="四餐合计 100%，不安排的餐次可填 0。" android:textSize="13sp" android:textColor="@color/mw_muted" android:lineSpacingExtra="3dp" />
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical">
+                <LinearLayout android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:orientation="vertical">
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="早餐 %" android:textSize="13sp" android:textColor="@color/mw_muted" android:lineSpacingExtra="3dp" />
+                    <EditText android:id="@+id/plan_breakfast" style="@style/Widget.MenuWise.Input" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:hint="早餐 %" android:inputType="number" android:maxLength="3" />
+                </LinearLayout>
+                <Space android:layout_width="12dp" android:layout_height="1dp" />
+                <LinearLayout android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:orientation="vertical">
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="午餐 %" android:textSize="13sp" android:textColor="@color/mw_muted" android:lineSpacingExtra="3dp" />
+                    <EditText android:id="@+id/plan_lunch" style="@style/Widget.MenuWise.Input" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:hint="午餐 %" android:inputType="number" android:maxLength="3" />
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical">
+                <LinearLayout android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:orientation="vertical">
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="晚餐 %" android:textSize="13sp" android:textColor="@color/mw_muted" android:lineSpacingExtra="3dp" />
+                    <EditText android:id="@+id/plan_dinner" style="@style/Widget.MenuWise.Input" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:hint="晚餐 %" android:inputType="number" android:maxLength="3" />
+                </LinearLayout>
+                <Space android:layout_width="12dp" android:layout_height="1dp" />
+                <LinearLayout android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:orientation="vertical">
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="加餐 %" android:textSize="13sp" android:textColor="@color/mw_muted" android:lineSpacingExtra="3dp" />
+                    <EditText android:id="@+id/plan_snack" style="@style/Widget.MenuWise.Input" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:hint="加餐 %" android:inputType="number" android:maxLength="3" />
+                </LinearLayout>
+            </LinearLayout>
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="饮食偏好（可选）" android:textSize="13sp" android:textColor="@color/mw_muted" android:layout_marginTop="12dp" android:labelFor="@id/plan_preferences" />
+            <EditText android:id="@+id/plan_preferences" style="@style/Widget.MenuWise.Input" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:hint="饮食偏好（可选）：家常菜、少油…" android:inputType="textMultiLine" android:maxLength="500" android:minHeight="80dp" android:gravity="top|start" />
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="忌口与过敏食材（可选）" android:textSize="13sp" android:textColor="@color/mw_muted" android:layout_marginTop="12dp" android:labelFor="@id/plan_excluded_foods" />
+            <EditText android:id="@+id/plan_excluded_foods" style="@style/Widget.MenuWise.Input" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:hint="忌口或过敏食材，用逗号分开（可选）" android:inputType="textMultiLine" android:maxLength="300" android:minHeight="80dp" android:gravity="top|start" />
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="适用于一般成年人；有特殊健康或医疗饮食需求时，请按专业建议安排。" android:textSize="14sp" android:textColor="@color/mw_muted" android:lineSpacingExtra="3dp" android:layout_marginTop="8dp" android:layout_marginBottom="12dp" />
+        </LinearLayout>
+        <com.google.android.material.button.MaterialButton android:id="@+id/plan_calculate" style="@style/Widget.MenuWise.Button" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="计算并保存目标" android:layout_marginTop="12dp" />
+        <TextView android:id="@+id/plan_summary" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="" android:textSize="16sp" android:textColor="@color/white" android:lineSpacingExtra="3dp" android:visibility="gone" android:padding="20dp" android:background="@drawable/mw_primary_card" android:layout_marginTop="16dp" />
+        <TextView android:id="@+id/plan_error" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="" android:textSize="14sp" android:textColor="@color/mw_fat" android:lineSpacingExtra="3dp" android:visibility="gone" android:accessibilityLiveRegion="polite" android:layout_marginTop="12dp" />
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical">
+            <com.google.android.material.button.MaterialButton android:id="@+id/plan_generate" style="@style/Widget.MenuWise.Button" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="AI 配餐建议" />
+            <Space android:layout_width="12dp" android:layout_height="1dp" />
+            <com.google.android.material.button.MaterialButton android:id="@+id/plan_service" style="@style/Widget.MenuWise.TextButton" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="服务设置" />
+        </LinearLayout>
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="AI 根据餐次目标、偏好和忌口生成建议，采用前可先查看。" android:textSize="12sp" android:textColor="@color/mw_muted" android:lineSpacingExtra="3dp" />
+        <ProgressBar android:id="@+id/plan_progress" android:layout_width="32dp" android:layout_height="32dp" android:layout_gravity="center_horizontal" android:visibility="gone" />
+        <TextView android:id="@+id/plan_preview" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="" android:textSize="15sp" android:textColor="@color/mw_ink" android:lineSpacingExtra="3dp" android:padding="18dp" android:layout_marginTop="16dp" android:background="@drawable/mw_soft_card" android:visibility="gone" />
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:id="@+id/plan_preview_actions" android:visibility="gone">
+            <com.google.android.material.button.MaterialButton android:id="@+id/plan_adopt" style="@style/Widget.MenuWise.Button" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="采用建议" />
+            <com.google.android.material.button.MaterialButton android:id="@+id/plan_dismiss" style="@style/Widget.MenuWise.TextButton" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="保留原计划" />
+        </LinearLayout>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:id="@+id/plan_meals" />
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:background="@drawable/mw_surface_card" android:padding="18dp" android:layout_marginTop="16dp">
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="计划工具" android:textSize="18sp" android:textColor="@color/mw_ink" android:lineSpacingExtra="3dp" android:textStyle="bold" android:layout_marginBottom="8dp" />
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical">
+                <com.google.android.material.button.MaterialButton android:id="@+id/plan_copy" style="@style/Widget.MenuWise.Secondary" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="复制到其他日期" />
+                <Space android:layout_width="12dp" android:layout_height="1dp" />
+                <com.google.android.material.button.MaterialButton android:id="@+id/plan_shopping" style="@style/Widget.MenuWise.Secondary" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="采购清单" />
+            </LinearLayout>
+            <com.google.android.material.button.MaterialButton android:id="@+id/plan_week_review" style="@style/Widget.MenuWise.TextButton" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="查看本周回顾" />
+        </LinearLayout>
+        <TextView android:id="@+id/plan_notes" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="" android:textSize="13sp" android:textColor="@color/mw_muted" android:lineSpacingExtra="3dp" android:layout_marginTop="12dp" />
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

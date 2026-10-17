@@ -18,16 +18,17 @@ open class DeepLearning {
                 intArrayOf(1, dishImageWidth, dishImageHeight, 3), DataType.FLOAT32
             )
 
-        val byteBuffer: ByteBuffer = ByteBuffer.allocate(4 * dishImageWidth * dishImageHeight * 3)
+        val byteBuffer: ByteBuffer = ByteBuffer.allocateDirect(4 * dishImageWidth * dishImageHeight * 3)
         byteBuffer.order(ByteOrder.nativeOrder())
 
 
         // make an dish image in 1D array
+        val scaled = Bitmap.createScaledBitmap(dish_image, dishImageWidth, dishImageHeight, true)
         val intValues = IntArray(dishImageWidth * dishImageHeight)
-        dish_image.getPixels(
-            intValues, 0, dish_image.width,
-            0, 0, dish_image.width, dish_image.height
-        )
+        try {
+            scaled.getPixels(intValues, 0, dishImageWidth, 0, 0, dishImageWidth, dishImageHeight)
+        } finally { if (scaled !== dish_image) scaled.recycle() }
+
 
 
         // iterate over pixels and extract R, G, and B values. Add to bytebuffer.
@@ -40,6 +41,7 @@ open class DeepLearning {
                 byteBuffer.putFloat((value and 0xFF) / 255f)
             }
         }
+        byteBuffer.rewind()
         inputFeature.loadBuffer(byteBuffer)
         return inputFeature
 

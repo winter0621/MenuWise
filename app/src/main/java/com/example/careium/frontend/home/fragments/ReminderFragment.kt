@@ -23,7 +23,6 @@ import com.google.android.material.timepicker.TimeFormat
 import java.util.*
 
 
-//TODO: Save Data after application closed
 class ReminderFragment : Fragment(R.layout.fragment_reminder) {
     private lateinit var binding: FragmentReminderBinding
     private lateinit var picker: MaterialTimePicker
@@ -43,36 +42,37 @@ class ReminderFragment : Fragment(R.layout.fragment_reminder) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentReminderBinding.bind(view)
+        sharedPreferences = requireContext().getSharedPreferences("meal_reminders", Context.MODE_PRIVATE)
 
         createNotificationChannel()
 
         setClickListener(
             binding.breakfastTime,
-            "Time For Your Breakfast!!",
-            "Breakfast Time",
+            "早餐时间到了",
+            "早餐提醒",
             binding.breakfastSetButton,
-            binding.breakfastCancelButton
+            binding.breakfastCancelButton, "breakfast"
         )
         setClickListener(
             binding.lunchTime,
-            "Time For Your Lunch!!",
-            "Lunch Time",
+            "午餐时间到了",
+            "午餐提醒",
             binding.lunchSetButton,
-            binding.lunchCancelButton
+            binding.lunchCancelButton, "lunch"
         )
         setClickListener(
             binding.dinnerTime,
-            "Time For Your Dinner!!",
-            "Dinner Time",
+            "晚餐时间到了",
+            "晚餐提醒",
             binding.dinnerSetButton,
-            binding.dinnerCancelButton
+            binding.dinnerCancelButton, "dinner"
         )
         setClickListener(
             binding.snackTime,
-            "Time For Your Snack!!",
-            "Snack Time",
+            "加餐时间到了",
+            "加餐提醒",
             binding.snackSetButton,
-            binding.snackCancelButton
+            binding.snackCancelButton, "snack"
         )
 
     }
@@ -82,39 +82,48 @@ class ReminderFragment : Fragment(R.layout.fragment_reminder) {
         message: String,
         meal: String,
         SetButton: Button,
-        CancelButton: Button
+        CancelButton: Button,
+        key: String
     ) {
+
+        val savedMinute = sharedPreferences.getInt(key, -1)
+        if (savedMinute >= 0) {
+            mealTime.text = String.format(Locale.getDefault(), "%02d:%02d", savedMinute / 60, savedMinute % 60)
+            SetButton.visibility = View.GONE
+            CancelButton.visibility = View.VISIBLE
+        }
 
         SetButton.setOnClickListener {
             setNotification(
                 message,
                 meal,
                 mealTime,
-                CancelButton, SetButton
+                CancelButton, SetButton, key
             )
         }
         CancelButton.setOnClickListener {
-            cancelNotification(mealTime)
+            cancelNotification(mealTime, key)
             SetButton.visibility = View.VISIBLE
             CancelButton.visibility = View.GONE
         }
     }
 
-    private fun cancelNotification(text: TextView) {
-        Toast.makeText(context, "you cancel breakfast time, set a new time ", Toast.LENGTH_SHORT)
+    private fun cancelNotification(text: TextView, key: String) {
+        Toast.makeText(context, "已取消提醒", Toast.LENGTH_SHORT)
             .show()
         alarmManager = context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val intent = Intent(context, ReminderNotification::class.java)
         pendingIntent =
             PendingIntent.getBroadcast(
                 context,
-                0,
+                key.hashCode(),
                 intent,
                 PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
             )
 
         text.text = getString(R.string.time)
         alarmManager.cancel(pendingIntent)
+        sharedPreferences.edit().remove(key).apply()
     }
 
     @SuppressLint("ResourceAsColor")
@@ -123,7 +132,8 @@ class ReminderFragment : Fragment(R.layout.fragment_reminder) {
         meal: String,
         mealText: TextView,
         cancel: Button,
-        set: Button
+        set: Button,
+        key: String
     ) {
         val intent = Intent(context, ReminderNotification::class.java)
         intent.putExtra(
@@ -134,9 +144,10 @@ class ReminderFragment : Fragment(R.layout.fragment_reminder) {
             messageExtra,
             message
         )
+        intent.putExtra("notification_id", key.hashCode())
         pendingIntent = PendingIntent.getBroadcast(
             context,
-            notificationID,
+            key.hashCode(),
             intent,
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
@@ -150,15 +161,9 @@ class ReminderFragment : Fragment(R.layout.fragment_reminder) {
         picker.show(parentFragmentManager, "Careium")
         picker.addOnPositiveButtonClickListener {
             if (picker.hour > 12) {
-                (String.format("%02d", picker.hour - 12) + ":" + String.format(
-                    "%02d",
-                    picker.minute
-                ) + "PM").also { mealText.text = it }
+                String.format(Locale.CHINA, "%02d:%02d", picker.hour, picker.minute).also { mealText.text = it }
             } else {
-                (String.format("%02d", picker.hour) + ":" + String.format(
-                    "%02d",
-                    picker.minute
-                ) + "AM").also { mealText.text = it }
+                String.format(Locale.CHINA, "%02d:%02d", picker.hour, picker.minute).also { mealText.text = it }
 
             }
             calender = Calendar.getInstance()
@@ -170,7 +175,8 @@ class ReminderFragment : Fragment(R.layout.fragment_reminder) {
             alarmManager.setExactAndAllowWhileIdle(
                 AlarmManager.RTC_WAKEUP, calender.timeInMillis, pendingIntent
             )
-            Toast.makeText(context, "Time Set successfully", Toast.LENGTH_SHORT).show()
+            sharedPreferences.edit().putInt(key, picker.hour * 60 + picker.minute).apply()
+            Toast.makeText(context, "用餐提醒已设置", Toast.LENGTH_SHORT).show()
             cancel.visibility = View.VISIBLE
             set.visibility = View.GONE
         }

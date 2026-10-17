@@ -3,18 +3,44 @@
     <string name="capture_failed">Unable to read the photo. Please try again.</string>
     <string name="quick_add_water">Water</string>
     <string name="quick_capture_food">Scan food</string>
+    <string name="splash_brand">MENUWISE · 饮食管理</string>
+    <string name="splash_title">每一餐，都有好安排</string>
+    <string name="splash_subtitle">从认识食物开始，找到适合自己的饮食节奏。</string>
+    <string name="splash_card_title">今天想从哪里开始？</string>
+    <string name="splash_card_body">查一查餐食热量，或提前安排每日饮食。</string>
+    <string name="splash_calorie_action">查询食物热量</string>
+    <string name="splash_plan_action">制定饮食计划 · 离线可用</string>
+    <string name="splash_account_note">登录或注册账号，开启个性化饮食管理</string>
+    <string name="splash_login_action">登录账号</string>
+    <string name="splash_register_action">注册账号</string>
+    <string name="splash_offline_action">本机模式 · 免登录</string>
+    <string name="splash_offline_note">记录保存在本机，在线 AI 按 API 设置使用</string>
+    <string name="calendar_subtitle">查看饮食安排，点击日期查看或制定计划。</string>
+    <string name="calendar_no_plan">暂无饮食计划</string>
+    <string name="calendar_plan_summary">目标 %1$d 千卡 · 已记录 %2$d 千卡</string>
+    <string name="calendar_open_plan">查看或安排</string>
+    <string name="recipes_subtitle">点开食谱查看食材与做法。</string>
+    <string name="recipe_ingredients_title">食材</string>
+    <string name="recipe_steps_title">做法</string>
+    <string name="note_delete_title">删除这条日记？</string>
+    <string name="note_delete_message">删除后无法恢复。</string>
+    <string name="note_deleted">日记已删除</string>
+    <string name="note_empty_error">请至少填写标题或内容。</string>
+    <string name="note_default_title">饮食记录</string>
+    <string name="diary_empty">还没有日记，记录下今天的饮食感受吧。</string>
+    <string name="diary_delete_hint">长按一条日记可以删除。</string>
 
     <!-- Authentication Screens -->
     <string name="auth_toolbar_title">%1$s</string>
-    <string name="login">Login</string><string name="register">Register</string>
+    <string name="login">登录</string><string name="register">注册</string>
     <string name="welcome_msg">Welcome to</string>
     <string name="something_wrong">Something went wrong!!</string>
     <string name="auth_option">AuthOption</string>
-    <string name="fill_data">Fill your Data</string>
-    <string name="password">Password</string>
-    <string name="login_now">Login Now</string>
+    <string name="fill_data">请输入账号信息</string>
+    <string name="password">密码</string>
+    <string name="login_now">登录</string>
     <string name="or_label">OR</string>
-    <string name="forget_password">Forget your password?</string>
+    <string name="forget_password">忘记密码？</string>
     <string name="user_data">User Data</string>
     <string name="user_info">User Info</string>
     <string name="user_goal">User Goal</string>
@@ -30,8 +56,8 @@
     <string name="fitness_tracker">Fitness Tracker</string>
     <string name="patient_treatment">Patient Treatment</string>
     <string name="future_goal">Future Goal</string>
-    <string name="error_title">Error</string>
-    <string name="error_message">Please Fill The empty cell</string>
+    <string name="error_title">提示</string>
+    <string name="error_message">请填写完整信息</string>
     <string name="error_confirm_message">Confirmation Password must be same as password</string>
     <string name="error_gender_message">Please Select your Gender</string>
     <string name="error_weight_message">Please Enter Your Desired Weight</string>
@@ -43,13 +69,25 @@
     <string name="confirmation_logged_msg">You Logged In Successfully</string>
     <string name="confirmation_register_msg">You Registered Successfully</string>
     <string name="already_has_account">Already Has Account, Please Login</string>
-    <string name="failed_to_login">Wrong User Name or Password</string>
+    <string name="failed_to_login">账号或密码错误</string>
     <string name="failed_reset_msg">Wrong Email!</string>
-    <string name="no_internet_connection">No Internet Connection</string>
+    <string name="no_internet_connection">网络连接不可用</string>
+    <string name="login_brand">MENUWISE · 饮食管理</string>
+    <string name="login_heading">欢迎回来</string>
+    <string name="login_subtitle">登录后继续记录每一餐，规划健康饮食。</string>
+    <string name="login_form_title">账号登录</string>
+    <string name="login_email_label">邮箱地址</string>
+    <string name="login_password_label">密码</string>
+    <string name="login_forgot_label">忘记密码？</string>
+    <string name="login_action_label">登录</string>
+    <string name="login_failed_message">账号或密码不正确，请重试</string>
+    <string name="login_network_error">当前网络不可用，请检查连接后重试</string>
+    <string name="login_register_prompt">还没有账号？</string>
+    <string name="login_register_action">立即注册</string>
 
     <!-- Navigation Labels -->
-    <string name="app_name">WiseMenu</string>
-    <string name="app_full_name">WiseMenu AI</string>
+    <string name="app_name">MenuWise</string>
+    <string name="app_full_name">MenuWise</string>
     <string name="app_name_first_part">Wise</string>
     <string name="app_name_second_part">Menu</string>
     <string name="home">Home</string>

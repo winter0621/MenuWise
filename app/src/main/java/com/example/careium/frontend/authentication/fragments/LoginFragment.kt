@@ -60,6 +60,13 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                 ?.commit()
         }
 
+        binding.loginRegisterLink.setOnClickListener {
+            activity?.supportFragmentManager?.beginTransaction()
+                ?.replace(R.id.auth_frame, RegisterFragment.newInstance())
+                ?.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                ?.commit()
+        }
+
     }
 
     fun isValidLoginInput(
@@ -76,7 +83,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
             val login = Login(email, password)
             login.isUserLoggedIn(authViewModel)
         } else
-            Toast.makeText(activity, getString(R.string.no_internet_connection), Toast.LENGTH_SHORT)
+            Toast.makeText(activity, getString(R.string.login_network_error), Toast.LENGTH_SHORT)
                 .show()
     }
 
@@ -87,7 +94,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                 commitEmailOnSharedPreference()
                 openMainActivity()
             } else
-                Toast.makeText(activity, getString(R.string.failed_to_login), Toast.LENGTH_SHORT)
+                Toast.makeText(activity, getString(R.string.login_failed_message), Toast.LENGTH_SHORT)
                     .show()
         }
     }

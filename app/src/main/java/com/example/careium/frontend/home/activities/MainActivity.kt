@@ -8,14 +8,8 @@ import android.graphics.drawable.BitmapDrawable
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.DisplayMetrics
 import android.util.Log
-import android.util.TypedValue
-import android.view.MotionEvent
 import android.view.View
-import android.view.ViewGroup
-import android.widget.FrameLayout
-import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
@@ -32,15 +26,13 @@ import com.example.careium.core.database.authentication.SharedPreferences
 import com.example.careium.core.database.realtime.DishImage
 import com.example.careium.core.database.realtime.FoodData
 import com.example.careium.core.database.realtime.UserData
+import com.example.careium.core.database.local.OfflineFoodStore
 import com.example.careium.core.models.DishClassification
 import com.example.careium.core.models.DishNutritionRegression
 import com.example.careium.databinding.ActivityMainBinding
-import com.example.careium.databinding.LayoutFloatingMenuItemBinding
 import com.example.careium.frontend.authentication.activities.SplashActivity
 import com.example.careium.frontend.factory.*
 import com.example.careium.frontend.home.fragments.*
-import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton
-import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu
 
 lateinit var nutritionViewModel: NutritionViewModel
 lateinit var classifierViewModel: ClassifierViewModel
@@ -50,7 +42,6 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var swipeListener: SwipeListener
-    private lateinit var actionMenu: FloatingActionMenu
     private lateinit var dishImage: Bitmap
     private lateinit var userDataViewModel: UserDataViewModel
     private val permission = Permissions(this, this)
@@ -68,16 +59,16 @@ class MainActivity : AppCompatActivity() {
         userDataViewModel = ViewModelProviders.of(this).get(UserDataViewModel::class.java)
         observeUserDataCallBackChange()
 
-        if (InternetConnection.isConnected(this)) {
+        if (InternetConnection.isConnected(this) && !getSharedPreferences("menuwise_local", MODE_PRIVATE).getBoolean("offline_mode", false)) {
             val userData = UserData()
             userData.getUserData(userDataViewModel)
-        } else {
-            Toast.makeText(this, getString(R.string.no_internet_connection), Toast.LENGTH_LONG).show()
         }
 
-        hideNavigationAndStatusBars()
-        initializeBottomNavigation() // 设置新的官方底部导航栏
-        buildFloatingActionMenu()
+        nutritionViewModel = ViewModelProviders.of(this).get(NutritionViewModel::class.java)
+        classifierViewModel = ViewModelProviders.of(this).get(ClassifierViewModel::class.java)
+        androidx.core.view.WindowCompat.setDecorFitsSystemWindows(window, true)
+        initializeBottomNavigation(savedInstanceState)
+        initializeQuickActions()
         makeNavigationViewItemsHooks()
         swipeListener = SwipeListener(this)
 
@@ -93,7 +84,7 @@ class MainActivity : AppCompatActivity() {
     /**
      * 重构后的方法，使用官方的 BottomNavigationView
      */
-    private fun initializeBottomNavigation() {
+    private fun initializeBottomNavigation(savedState: Bundle?) {
         // 为新的导航栏设置点击监听器
         binding.bottomNavigationView.setOnItemSelectedListener { item ->
             val fragment: Fragment? = when (item.itemId) {
@@ -113,7 +104,14 @@ class MainActivity : AppCompatActivity() {
         }
 
         // 默认选中首页
-        binding.bottomNavigationView.selectedItemId = R.id.navigation_home
+        if (savedState == null) binding.bottomNavigationView.selectedItemId = R.id.navigation_home
+        else binding.bottomNavigationView.menu.findItem(savedState.getInt("selected_nav", R.id.navigation_home)).isChecked = true
+        binding.bottomNavigationView.setOnItemReselectedListener { }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putInt("selected_nav", binding.bottomNavigationView.selectedItemId)
+        super.onSaveInstanceState(outState)
     }
 
     private fun makeNavigationViewItemsHooks() {
@@ -173,9 +171,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         super.onWindowFocusChanged(hasFocus)
-        if (hasFocus) {
-            hideSystemBars()
-        }
+        // Keep content below the status bar and above system navigation.
     }
 
     private fun hideNavigationAndStatusBars() {
@@ -199,18 +195,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun dispatchTouchEvent(event: MotionEvent?): Boolean {
-        if (actionMenu.isOpen) {
-            binding.layoutMainFrameOverlay.visibility = View.INVISIBLE
-            actionMenu.close(true)
-        }
-        return super.dispatchTouchEvent(event)
-    }
-
     private fun capturePlate() {
-        permission.checkPermissions(android.Manifest.permission.READ_EXTERNAL_STORAGE, 2)
-        val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+        startActivity(Intent(this, AiCalorieActivity::class.java).putExtra("open_camera", true))
     }
 
     fun startFoodCapture() {
@@ -231,8 +217,11 @@ class MainActivity : AppCompatActivity() {
         }
         dishImage = capturedBitmap
 
+        val offlineMode = getSharedPreferences("menuwise_local", MODE_PRIVATE).getBoolean("offline_mode", false)
         val dishImageUri = data.data
-        if (dishImageUri != null) {
+        if (offlineMode) {
+            DishImage.saveLocalImage(this, dishImage)
+        } else if (dishImageUri != null) {
             DishImage.uploadImage(dishImage, dishImageUri)
         }
 
@@ -244,7 +233,8 @@ class MainActivity : AppCompatActivity() {
             classifierViewModel.mutableDishName.value = className
             classifierViewModel.mutableDishImage.value = BitmapDrawable(resources, dishImage)
 
-            saveFoodDataInDatabase(className, nutritionList)
+            if (offlineMode) OfflineFoodStore(this).add(className, nutritionList)
+            else saveFoodDataInDatabase(className, nutritionList)
         } catch (e: Exception) {
             Log.d("DLModels", "Exception Occurred in DL Models")
         }
@@ -267,73 +257,34 @@ class MainActivity : AppCompatActivity() {
         foodData.saveFoodData()
     }
 
-    @SuppressLint("UseCompatLoadingForDrawables")
-    private fun buildFloatingActionMenu() {
-        val primaryBtnIcon = ImageView(this)
-        primaryBtnIcon.setImageDrawable(getDrawable(R.drawable.ic_round_add_24))
-        val actionButton = FloatingActionButton.Builder(this).setContentView(primaryBtnIcon).build()
-        val typedValue = TypedValue()
-        theme.resolveAttribute(R.attr.colorSecondary, typedValue, true)
-        val colorSecondary: Int = typedValue.data
-        actionButton.background.setTint(colorSecondary)
-
-        val param = actionButton.layoutParams as ViewGroup.MarginLayoutParams
-        param.setMargins(10, 10, 10, 240)
-        actionButton.layoutParams = param
-
-        val item1 = inflateFABMenuItem(FABItem.WATER, R.drawable.ic_menu_water_48, getString(R.string.quick_add_water))
-        val item2 = inflateFABMenuItem(FABItem.DINNER, R.drawable.ic_menu_dinner_64, getString(R.string.dinner))
-        val item3 = inflateFABMenuItem(FABItem.SNACK, R.drawable.ic_menu_snack_64, getString(R.string.snack))
-        val item4 = inflateFABMenuItem(FABItem.LUNCH, R.drawable.ic_menu_lunch_64, getString(R.string.lunch))
-        val item5 = inflateFABMenuItem(FABItem.BREAKFAST, R.drawable.ic_menu_breakfast_64, getString(R.string.breakfast))
-        val item6 = inflateFABMenuItem(FABItem.TRACKER, R.drawable.ic_menu_camera_48, getString(R.string.quick_capture_food))
-
-        val displayMetrics = DisplayMetrics()
-        windowManager.defaultDisplay.getMetrics(displayMetrics)
-        val width: Float = displayMetrics.widthPixels.toFloat()
-        val radius: Int = (width * 0.60f).toInt()
-
-        actionMenu = FloatingActionMenu.Builder(this)
-            .setRadius(radius)
-            .addSubActionView(item1)
-            .addSubActionView(item2)
-            .addSubActionView(item3)
-            .addSubActionView(item4)
-            .addSubActionView(item5)
-            .addSubActionView(item6)
-            .attachTo(actionButton)
-            .build()
-
-        actionButton.setOnClickListener {
-            actionMenu.toggle(true)
-            if (actionMenu.isOpen) {
-                binding.layoutMainFrameOverlay.visibility = View.VISIBLE
-                if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
-                    binding.drawerLayout.closeDrawers()
-                }
-            }
+    private fun initializeQuickActions() {
+        binding.layoutToolbar.imageQuickAdd.setOnClickListener {
+            androidx.appcompat.app.AlertDialog.Builder(this).setTitle("快捷记录")
+                .setItems(arrayOf("早餐", "午餐", "晚餐", "加餐", "记录饮水", "拍照估算")) { _, index ->
+                    when (index) {
+                        4 -> showWaterDialog()
+                        5 -> capturePlate()
+                        else -> startActivity(Intent(this, MealPlanActivity::class.java)
+                            .putExtra("focus_meal", listOf("breakfast", "lunch", "dinner", "snack")[index]))
+                    }
+                }.setNegativeButton("关闭", null).show()
         }
     }
 
-    @SuppressLint("UseCompatLoadingForDrawables")
-    private fun inflateFABMenuItem(id: FABItem, drawableID: Int, label: String): View {
-        val itemBinding = LayoutFloatingMenuItemBinding.inflate(layoutInflater)
-        val params = FrameLayout.LayoutParams(-2, -2, 51)
-        itemBinding.root.layoutParams = params
-        itemBinding.fabItem.setImageDrawable(getDrawable(drawableID))
-        itemBinding.textFabLabel.text = label
-
-        itemBinding.fabItem.setOnClickListener {
-            when (id) {
-                FABItem.TRACKER -> capturePlate()
-                FABItem.BREAKFAST -> Toast.makeText(this, "Breakfast Button Clicked !!", Toast.LENGTH_SHORT).show()
-                FABItem.LUNCH -> Toast.makeText(this, "Lunch Button Clicked !!", Toast.LENGTH_SHORT).show()
-                FABItem.SNACK -> Toast.makeText(this, "Snack Button Clicked !!", Toast.LENGTH_SHORT).show()
-                FABItem.DINNER -> Toast.makeText(this, "Dinner Button Clicked !!", Toast.LENGTH_SHORT).show()
-                FABItem.WATER -> Toast.makeText(this, "Water Button Clicked !!", Toast.LENGTH_SHORT).show()
-            }
-        }
-        return itemBinding.root
+    private fun showWaterDialog() {
+        val prefs = getSharedPreferences("water_intake", MODE_PRIVATE)
+        val account = if (getSharedPreferences("menuwise_local", MODE_PRIVATE).getBoolean("offline_mode", false)) "local" else com.google.firebase.auth.FirebaseAuth.getInstance().currentUser?.uid ?: "local"
+        val key = account + ":" + com.example.careium.core.planning.MealPlanStore.today()
+        val total = prefs.getInt(key, 0)
+        androidx.appcompat.app.AlertDialog.Builder(this).setTitle("今日饮水 · $total 毫升")
+            .setItems(arrayOf("记录 150 毫升", "记录 250 毫升", "记录 500 毫升")) { _, index ->
+                val updated = total + listOf(150, 250, 500)[index]
+                prefs.edit().putInt(key, updated).apply()
+                Toast.makeText(this, "今日已记录 $updated 毫升", Toast.LENGTH_SHORT).show()
+            }.setNeutralButton("清空今日") { _, _ ->
+                androidx.appcompat.app.AlertDialog.Builder(this).setTitle("清空今日饮水记录？")
+                    .setNegativeButton("取消", null).setPositiveButton("清空") { _, _ -> prefs.edit().remove(key).apply() }.show()
+            }.setNegativeButton("关闭", null).show()
     }
 
     private fun deleteEmailFromSharedPreference() {
@@ -352,14 +303,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun logout() {
-        if (InternetConnection.isConnected(this)) {
-            deleteEmailFromSharedPreference()
-            signOut()
-            startActivity(Intent(this, SplashActivity::class.java))
-            finish()
-        } else {
-            Toast.makeText(this, getString(R.string.no_internet_connection), Toast.LENGTH_SHORT).show()
-        }
+        getSharedPreferences("menuwise_local", MODE_PRIVATE).edit().putBoolean("offline_mode", false).apply()
+        deleteEmailFromSharedPreference()
+        signOut()
+        startActivity(Intent(this, SplashActivity::class.java))
+        finish()
     }
 
     private fun signOut() {

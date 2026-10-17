@@ -34,7 +34,7 @@ class Permissions(private var context: Context, private var activity: Activity) 
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == READ_EXTERNAL_STORAGE) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(this.context, "Storage Permission Granted", Toast.LENGTH_LONG).show()
+                Toast.makeText(this.context, "存储权限已开启", Toast.LENGTH_LONG).show()
             }
         }
     }

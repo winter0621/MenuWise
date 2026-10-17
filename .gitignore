@@ -10,3 +10,9 @@
 .externalNativeBuild
 .cxx
 local.properties
+
+# AI gateway credentials and Python runtime files
+server/.env
+server/.venv/
+__pycache__/
+*.pyc

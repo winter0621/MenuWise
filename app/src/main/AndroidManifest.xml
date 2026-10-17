@@ -3,6 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.careium">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
     <uses-feature
@@ -11,12 +14,31 @@
 
     <application
         android:allowBackup="true"
-        android:fullBackupContent="true"
+        android:fullBackupContent="@xml/ai_backup_rules"
+        android:dataExtractionRules="@xml/ai_data_extraction_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Careium">
+        <activity android:name=".frontend.home.activities.MealPlanActivity" android:exported="false" />
+        <activity android:name=".frontend.home.activities.MealPlanToolsActivity" android:exported="false" />
+        <activity
+            android:name=".frontend.home.activities.AiCalorieActivity"
+            android:exported="false" />
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.ai.files"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/ai_file_paths" />
+        </provider>
+        <receiver android:name=".core.planning.MealPlanReminderReceiver" android:enabled="true" android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
         <activity
             android:name=".frontend.authentication.activities.SplashActivity"
             android:exported="true"

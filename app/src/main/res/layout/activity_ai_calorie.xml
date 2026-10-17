@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="match_parent" android:background="@color/mw_canvas" android:fillViewport="true">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="20dp" android:paddingBottom="32dp">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical">
+            <com.google.android.material.button.MaterialButton android:id="@+id/ai_back" style="@style/Widget.MenuWise.TextButton" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="‹ 返回" />
+            <Space android:layout_width="12dp" android:layout_height="1dp" />
+            <com.google.android.material.button.MaterialButton android:id="@+id/ai_settings" style="@style/Widget.MenuWise.TextButton" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="API 设置" />
+        </LinearLayout>
+        <TextView android:id="@+id/ai_service_status" android:layout_width="match_parent" android:layout_height="wrap_content" android:minHeight="48dp" android:gravity="center_vertical" android:textColor="@color/mw_primary" android:textSize="14sp" android:clickable="true" android:focusable="true" />
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="认识这一餐" android:textSize="28sp" android:textColor="@color/mw_ink" android:lineSpacingExtra="3dp" android:textStyle="bold" android:layout_marginTop="12dp" />
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="拍清完整餐盘，可补充食物名称、实际重量、餐盘直径和用油量。识别后可校准各项克数。" android:textSize="14sp" android:textColor="@color/mw_muted" android:lineSpacingExtra="3dp" android:layout_marginTop="8dp" android:layout_marginBottom="12dp" />
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:background="@drawable/mw_surface_card" android:padding="18dp" android:layout_marginTop="16dp">
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="食物与份量" android:textSize="18sp" android:textColor="@color/mw_ink" android:lineSpacingExtra="3dp" android:textStyle="bold" android:layout_marginBottom="8dp" />
+            <EditText android:id="@+id/ai_description" style="@style/Widget.MenuWise.Input" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:hint="离线示例：米饭200克、鸡蛋100克；在线可描述复合菜品。" android:inputType="textMultiLine|textCapSentences" android:minHeight="112dp" android:gravity="top|start" android:maxLength="1000" />
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical">
+                <com.google.android.material.button.MaterialButton android:id="@+id/ai_camera" style="@style/Widget.MenuWise.Secondary" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="拍照" />
+                <Space android:layout_width="12dp" android:layout_height="1dp" />
+                <com.google.android.material.button.MaterialButton android:id="@+id/ai_gallery" style="@style/Widget.MenuWise.Secondary" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="选择照片" />
+            </LinearLayout>
+            <ImageView android:id="@+id/ai_photo" android:layout_width="match_parent" android:layout_height="200dp" android:scaleType="fitCenter" android:contentDescription="待查询的食物照片" android:visibility="gone" />
+            <com.google.android.material.button.MaterialButton android:id="@+id/ai_remove_photo" style="@style/Widget.MenuWise.TextButton" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="移除照片" android:visibility="gone" />
+            <com.google.android.material.button.MaterialButton android:id="@+id/ai_query" style="@style/Widget.MenuWise.Button" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="估算这一餐的热量" />
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="在线查询会将描述与照片发送到所配置的 AI 服务；离线查询在本机处理。结果为估算，加入计划后还需记录实际份量。" android:textSize="12sp" android:textColor="@color/mw_muted" android:lineSpacingExtra="3dp" />
+        </LinearLayout>
+        <ProgressBar android:id="@+id/ai_progress" android:layout_width="32dp" android:layout_height="32dp" android:layout_gravity="center_horizontal" android:layout_marginTop="12dp" android:visibility="gone" />
+        <TextView android:id="@+id/ai_error" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="" android:textSize="14sp" android:textColor="@color/mw_fat" android:lineSpacingExtra="3dp" android:visibility="gone" android:accessibilityLiveRegion="polite" android:layout_marginTop="12dp" />
+        <TextView android:id="@+id/ai_result" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="" android:textSize="16sp" android:textColor="@color/mw_ink" android:lineSpacingExtra="3dp" android:visibility="gone" android:background="@drawable/mw_surface_card" android:padding="18dp" android:layout_marginTop="16dp" android:textIsSelectable="true" android:accessibilityLiveRegion="polite" />
+        <com.google.android.material.button.MaterialButton android:id="@+id/ai_adjust_portions" style="@style/Widget.MenuWise.Secondary" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="校准食物份量 · 重新计算大卡" android:visibility="gone" />
+        <com.google.android.material.button.MaterialButton android:id="@+id/ai_add_to_plan" style="@style/Widget.MenuWise.Button" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="加入饮食计划" android:visibility="gone" />
+        <com.google.android.material.button.MaterialButton android:id="@+id/ai_open_plan" style="@style/Widget.MenuWise.Secondary" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="查看我的饮食计划" android:layout_marginTop="12dp" />
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:background="@drawable/mw_surface_card" android:padding="18dp" android:layout_marginTop="16dp">
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="查询记录" android:textSize="18sp" android:textColor="@color/mw_ink" android:lineSpacingExtra="3dp" android:textStyle="bold" android:layout_marginBottom="8dp" />
+            <TextView android:id="@+id/ai_history" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="暂无查询记录" android:textSize="14sp" android:textColor="@color/mw_muted" android:lineSpacingExtra="3dp" />
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:id="@+id/ai_history_items" />
+            <com.google.android.material.button.MaterialButton android:id="@+id/ai_clear_history" style="@style/Widget.MenuWise.TextButton" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="清空记录" />
+        </LinearLayout>
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

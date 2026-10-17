@@ -12,10 +12,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.careium.R;
 import com.example.careium.core.adapters.DiaryAdapter;
 import com.example.careium.databinding.FragmentDiaryBinding;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import java.util.ArrayList;
 
 
 public class DiaryFragment extends Fragment {
@@ -44,8 +48,18 @@ public class DiaryFragment extends Fragment {
                 .commit());
 
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view_notes);
+        AddNoteFragment.noteList.clear();
+        try {
+            JSONArray saved = new JSONArray(requireContext().getSharedPreferences("diary_notes", 0).getString("items", "[]"));
+            for (int i = 0; i < saved.length(); i++) {
+                JSONObject item = saved.getJSONObject(i);
+                AddNoteFragment.noteList.add(new NoteInformation(item.optString("title"), item.optString("description"), item.optLong("created")));
+            }
+        } catch (Exception ignored) { }
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
         DiaryAdapter dairyAdapter = new DiaryAdapter(this.getContext(), AddNoteFragment.noteList);
         recyclerView.setAdapter(dairyAdapter);
+        TextView empty = view.findViewById(R.id.diary_empty);
+        empty.setVisibility(AddNoteFragment.noteList.isEmpty() ? View.VISIBLE : View.GONE);
     }
 }

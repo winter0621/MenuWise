@@ -1,14 +1,16 @@
 package com.example.careium.frontend.home.fragments
 
-import android.os.Build
 import android.os.Bundle
 import android.view.View
-import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.careium.R
-import com.example.careium.core.adapters.CalenderAdapter
+import com.example.careium.core.adapters.PlanCalendarAdapter
+import com.example.careium.core.planning.MealPlanStore
 import com.example.careium.databinding.FragmentCalenderBinding
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
 
 class CalenderFragment : Fragment(R.layout.fragment_calender) {
@@ -20,32 +22,17 @@ class CalenderFragment : Fragment(R.layout.fragment_calender) {
             CalenderFragment().apply {}
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentCalenderBinding.bind(view)
-        val list: ArrayList<Int> = ArrayList()
-        val calender = CalenderInformation()
-
-        var start: Int
-        var end = 1
-        for (i in calender.month downTo calender.startMonth) {
-            start = if (i == calender.month) {
-                calender.dayNum
-            } else {
-                calender.getNumberOfDaysInMonth(2022, i)
-            }
-            if (i == calender.startMonth) {
-                end = calender.startDay
-            }
-            for (j in start downTo end) {
-                println("Day : $j Month :$i")
-                list.add(j)
-            }
-        }
-
-        val calenderAdapter = CalenderAdapter(this.context, list)
-        binding.recyclerViewCalender.layoutManager = LinearLayoutManager(this.context)
-        binding.recyclerViewCalender.adapter = calenderAdapter
+        val today = Calendar.getInstance()
+        binding.textCalendarDate.text = SimpleDateFormat("yyyy年M月", Locale.CHINA).format(today.time)
+        val format = SimpleDateFormat("yyyy-MM-dd", Locale.US)
+        val dates = (-14..14).map { offset ->
+            (today.clone() as Calendar).apply { add(Calendar.DAY_OF_YEAR, offset) }.time
+        }.map { format.format(it) }.toMutableSet()
+        dates.addAll(MealPlanStore(requireContext()).dates())
+        binding.recyclerViewCalender.layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerViewCalender.adapter = PlanCalendarAdapter(requireContext(), dates.sortedDescending())
     }
 }

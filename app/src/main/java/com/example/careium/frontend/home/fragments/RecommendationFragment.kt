@@ -41,39 +41,39 @@ class RecommendationFragment : Fragment(R.layout.fragment_recommendation) {
         userDataViewModel = ViewModelProviders.of(this).get(UserDataViewModel::class.java)
         observeUserDataCallBackChange()
 
-        if (InternetConnection.isConnected(this.requireContext())) {
+        if (InternetConnection.isConnected(this.requireContext()) && !requireContext().getSharedPreferences("menuwise_local", 0).getBoolean("offline_mode", false)) {
             val userData = UserData()
             userData.getUserData(userDataViewModel)
-        } else
-            Toast.makeText(activity, getString(R.string.no_internet_connection), Toast.LENGTH_SHORT)
-                .show()
+        } else {
+            val prefs = requireContext().getSharedPreferences("menuwise_local", 0)
+            val localUser = User().apply {
+                name = prefs.getString("name", "本地用户") ?: "本地用户"
+                height = prefs.getFloat("height", 0f)
+                weight = prefs.getFloat("weight", 0f)
+                age = prefs.getInt("age", 0)
+                gender = runCatching { Gender.valueOf(prefs.getString("gender", "Male")!!) }.getOrDefault(Gender.Male)
+            }
+            renderRecommendations(localUser)
+        }
     }
 
 
     private fun observeUserDataCallBackChange() {
         userDataViewModel.mutableUserData.observe(viewLifecycleOwner) { user ->
             if (user != null) {
-                val bmr = calBMR(user)
-
-
-                val foodCaloriesArray = readFoodCaloriesFile()
-                for (obj in foodCaloriesArray) {
-                    if ((obj.getFoodCalories() < (bmr)
-                                && obj.getFoodCalories() >= (bmr) - 200)
-                        || (obj.getFoodCalories() > (bmr)
-                                && obj.getFoodCalories() <= (bmr) + 200)
-                    ) {
-                        foodArrayList.add(FoodCalories(obj.getFoodName(), obj.getFoodCalories()))
-                    }
-                }
-
-                binding.recommendRecyclerView.layoutManager = LinearLayoutManager(this.context)
-                foodAdapter = RecommendationAdapter(foodArrayList, this.requireContext())
-                binding.recommendRecyclerView.adapter = foodAdapter
-                binding.waitContainer.visibility = View.GONE
-
+                renderRecommendations(user)
             }
         }
+    }
+
+    private fun renderRecommendations(user: User) {
+        val bmr = if (user.height > 0 && user.weight > 0 && user.age > 0) calBMR(user) else 600
+        foodArrayList.clear()
+        foodArrayList.addAll(readFoodCaloriesFile().filter { kotlin.math.abs(it.getFoodCalories() - bmr) <= 200 })
+        binding.recommendRecyclerView.layoutManager = LinearLayoutManager(this.context)
+        foodAdapter = RecommendationAdapter(foodArrayList, this.requireContext())
+        binding.recommendRecyclerView.adapter = foodAdapter
+        binding.waitContainer.visibility = View.GONE
     }
 
     private fun calBMR(user: User): Int {
@@ -90,9 +90,9 @@ class RecommendationFragment : Fragment(R.layout.fragment_recommendation) {
         val textFile: InputStream = (this.resources.openRawResource(R.raw.food_recommendation))
         val reader = BufferedReader(InputStreamReader(textFile))
         var record: String
-        while (reader.readLine() != null) {
+        while (true) {
             try {
-                if (reader.readLine().also { record = it } == null) break
+                if (reader.readLine().also { record = it ?: "" }.isEmpty()) break
                 val recordList = record.split(",")
                 foodCalories.add(FoodCalories(recordList[0], recordList[1].toInt()))
             } catch (e: IOException) {

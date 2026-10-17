@@ -15,6 +15,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.component1
 import java.time.LocalDateTime
+import java.io.File
+import java.io.FileOutputStream
 import kotlin.collections.ArrayList
 
 
@@ -37,6 +39,15 @@ class DishImage {
 
         }
 
+        @JvmStatic
+        fun saveLocalImage(context: Context, image: Bitmap) {
+            val day = "${LocalDateTime.now().dayOfMonth} ${LocalDateTime.now().monthValue}"
+            val folder = File(context.filesDir, "local_food_images/$day").apply { mkdirs() }
+            FileOutputStream(File(folder, "${System.currentTimeMillis()}.jpg")).use {
+                image.compress(Bitmap.CompressFormat.JPEG, 88, it)
+            }
+        }
+
         @SuppressLint("SimpleDateFormat")
         @JvmStatic
         fun fetchImages(
@@ -45,6 +56,16 @@ class DishImage {
             waitContainer: View,
             day: String
         ) {
+
+            if (context.getSharedPreferences("menuwise_local", Context.MODE_PRIVATE).getBoolean("offline_mode", false)) {
+                val folder = File(context.filesDir, "local_food_images/$day")
+                val images = folder.listFiles()?.sortedByDescending { it.lastModified() }.orEmpty()
+                    .mapNotNull { BitmapFactory.decodeFile(it.absolutePath) }
+                gridView.adapter = GridViewAdapter(context, ArrayList(images))
+                waitContainer.visibility = View.GONE
+                if (images.isEmpty()) Toast.makeText(context, "这一天还没有本地照片", Toast.LENGTH_SHORT).show()
+                return
+            }
 
             val userDishesImages = ArrayList<Bitmap>()
             val mega = (1024 * 1024 * 5).toLong()
@@ -56,7 +77,7 @@ class DishImage {
                         waitContainer.visibility = View.GONE
                         Toast.makeText(
                             context,
-                            "you don't have images at that day",
+                            "这一天还没有照片",
                             Toast.LENGTH_LONG
                         ).show()
                     }
@@ -77,7 +98,7 @@ class DishImage {
                             }.addOnCanceledListener {
                                 Toast.makeText(
                                     context,
-                                    "Sorry ,failed to load images",
+                                    "照片加载失败，请稍后重试",
                                     Toast.LENGTH_SHORT
                                 ).show()
                             }
@@ -86,7 +107,7 @@ class DishImage {
                 .addOnCanceledListener {
                     Toast.makeText(
                         context,
-                        "Sorry ,failed to load images",
+                        "照片加载失败，请稍后重试",
                         Toast.LENGTH_LONG
                     ).show()
                 }

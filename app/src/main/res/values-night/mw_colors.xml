@@ -1,0 +1,6 @@
+<resources>
+    <color name="mw_canvas">#101914</color><color name="mw_surface">#1B2821</color>
+    <color name="mw_ink">#ECF3EE</color><color name="mw_muted">#B2C2B7</color>
+    <color name="mw_primary">#237650</color><color name="mw_primary_soft">#C5EBD5</color>
+    <color name="mw_border">#3A4D40</color><color name="mw_soft_surface">#263D30</color>
+</resources>

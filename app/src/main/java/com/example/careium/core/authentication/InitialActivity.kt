@@ -79,6 +79,7 @@ class InitialActivity : AppCompatActivity(){
      */
     private fun openMainActivity() {
         Handler(Looper.getMainLooper()).postDelayed({
+            if (SplashActivity.instance.isFinishing || SplashActivity.instance.isDestroyed) return@postDelayed
             val intent = Intent(SplashActivity.instance, MainActivity::class.java)
             SplashActivity.instance.startActivity(intent)
             SplashActivity.instance.finish()
