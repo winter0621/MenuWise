@@ -192,6 +192,12 @@
     <string name="home_no_meal">No meal recorded yet</string>
     <string name="home_remaining_unit">kcal remaining</string>
     <string name="home_daily_target">Daily target</string>
+    <string name="home_budget_title">Remaining nutrition budget</string>
+    <string name="home_budget_note">Protein, carbs and fat are calculated only from foods with known nutrition values.</string>
+    <string name="home_budget_remaining">%1$d %2$s remaining</string>
+    <string name="home_budget_exceeded">%1$d %2$s over</string>
+    <string name="home_budget_recorded">Recorded %1$d / %2$d %3$s</string>
+    <string name="home_budget_known">Known %1$d / %2$d %3$s · %4$d/%5$d items</string>
     <string name="content_previous_day">Previous day</string>
     <string name="content_next_day">Next day</string>
     <string name="content_record_meal">Record a meal</string>

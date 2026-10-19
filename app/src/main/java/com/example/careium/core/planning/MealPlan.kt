@@ -67,7 +67,7 @@ data class DailyMealPlan(val date: String, val profile: PlanProfile, val bmr: In
     }
 }
 
-data class GroceryItem(val name: String, val grams: Double, val purchased: Boolean)
+data class GroceryItem(val name: String, val grams: Double, val purchased: Boolean, val expiresOn: String? = null)
 data class WeeklyReview(val firstDate: String, val lastDate: String, val loggedDays: Int,
     val recordedKcal: Double, val loggedTargetKcal: Int, val plans: List<DailyMealPlan> = emptyList(),
     val throughDate: String = lastDate) {

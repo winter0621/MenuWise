@@ -74,6 +74,8 @@
 
             <TextView android:id="@+id/row_ai_service" style="@style/MenuWise.SettingsRow" android:text="@string/settings_ai_service" />
             <View style="@style/MenuWise.SettingsDivider" />
+            <TextView android:id="@+id/row_household_profiles" style="@style/MenuWise.SettingsRow" android:text="家庭饮食档案" />
+            <View style="@style/MenuWise.SettingsDivider" />
             <TextView android:id="@+id/row_reminder" style="@style/MenuWise.SettingsRow" android:text="@string/settings_reminders" />
             <View style="@style/MenuWise.SettingsDivider" />
             <TextView android:id="@+id/row_language" style="@style/MenuWise.SettingsRow" android:text="@string/settings_language" />

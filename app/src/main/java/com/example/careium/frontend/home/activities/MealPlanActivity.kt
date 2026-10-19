@@ -43,6 +43,7 @@ class MealPlanActivity : AppCompatActivity() {
         fillForm()
         showProfile(savedInstanceState?.getBoolean("profile_expanded") ?: (model.state.value?.plan == null))
         binding.planEditProfile.setOnClickListener { showProfile(binding.planForm.visibility != View.VISIBLE) }
+        binding.planApplyHousehold.setOnClickListener { applyActiveHouseholdProfile() }
         binding.planCopy.setOnClickListener { copyPlan() }
         binding.planBack.setOnClickListener { finish() }
         binding.planDate.setOnClickListener {
@@ -141,6 +142,16 @@ class MealPlanActivity : AppCompatActivity() {
         binding.planExcludedFoods.setText(plan?.excludedFoods.orEmpty())
         percentFields().forEachIndexed { index, field -> field.setText((plan?.meals?.get(index)?.percent ?: MealPlanCalculator.defaultPercents[index]).toString()) }
     }
+    private fun applyActiveHouseholdProfile() {
+        val household = HouseholdProfileStore(this).active()
+        if (household == null) {
+            toast("请先在设置中添加并选择家庭成员")
+            return
+        }
+        binding.planPreferences.setText(household.preferences)
+        binding.planExcludedFoods.setText(household.excludedFoods)
+        toast("已带入${household.name}的饮食偏好，请点击计算并保存目标")
+    }
     private fun setEnabled(view: View, enabled: Boolean) {
         view.isEnabled = enabled
         if (view is ViewGroup) for (index in 0 until view.childCount) setEnabled(view.getChildAt(index), enabled)
@@ -205,6 +216,7 @@ class MealPlanActivity : AppCompatActivity() {
                 editRow.addView(button("移除", !state.busy) { AlertDialog.Builder(this).setTitle("移除${food.name}？").setMessage("该食物的计划与实际摄入记录会一并移除。")
                     .setNegativeButton("取消", null).setPositiveButton("移除") { _, _ -> safely { model.editFood(meal.id, index, null) } }.show() }, LinearLayout.LayoutParams(0, -2, 1f).apply { marginStart = dp(4); marginEnd = dp(4) })
                 card.addView(editRow)
+                card.addView(button("替换建议", !state.busy) { showSubstitutionSuggestions(meal, index, food, state.plan?.excludedFoods.orEmpty()) })
             }
             val actions = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL }
             actions.addView(button("添加食物", !state.busy) { editFood(meal, null) }, LinearLayout.LayoutParams(0, -2, 1f).apply { marginStart = dp(4); marginEnd = dp(4) })
@@ -287,6 +299,32 @@ class MealPlanActivity : AppCompatActivity() {
             }
         }
         dialog.show()
+    }
+    private fun showSubstitutionSuggestions(meal: PlannedMeal, index: Int, food: PlannedFood, excludedFoods: String) {
+        val suggestions = FoodSubstitutionCatalog.suggestions(food, excludedFoods)
+        if (suggestions.isEmpty()) {
+            AlertDialog.Builder(this).setTitle("暂无可靠替换建议")
+                .setMessage("目前仅为常见主食、蛋白质和乳制品提供离线同类替换。你仍可使用“调整计划”手动修改食物与份量。")
+                .setPositiveButton("知道了", null).show()
+            return
+        }
+        val choices = suggestions.map { suggestion ->
+            "${suggestion.food.name} ${number(suggestion.food.grams)}克 · 约${number(suggestion.food.calories)}千卡\n${suggestion.reason}"
+        }
+        AlertDialog.Builder(this).setTitle("替换 ${food.name}")
+            .setMessage("推荐热量按原食物估算，并已过滤已填写的忌口；请结合实际包装和做法核对。")
+            .setItems(choices.toTypedArray()) { _, selected ->
+                val choice = suggestions[selected]
+                val message = buildString {
+                    append("将 ${food.name} 替换为 ${choice.food.name}。")
+                    if (food.eatenGrams != null) append("该食物的实际摄入记录会清除，其他食物和提醒不受影响。")
+                }
+                AlertDialog.Builder(this).setTitle("应用这个替换？").setMessage(message)
+                    .setNegativeButton("取消", null).setPositiveButton("应用") { _, _ -> safely {
+                        model.applySubstitution(meal.id, index, choice.food)
+                        toast("已替换为${choice.food.name}")
+                    } }.show()
+            }.setNegativeButton("取消", null).show()
     }
     private fun selectQuery(mealId: String) {
         safely {

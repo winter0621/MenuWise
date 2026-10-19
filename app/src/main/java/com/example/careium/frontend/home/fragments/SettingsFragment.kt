@@ -11,6 +11,7 @@ import com.example.careium.BuildConfig
 import com.example.careium.R
 import com.example.careium.databinding.FragmentSettingsBinding
 import com.example.careium.frontend.home.activities.AiCalorieActivity
+import com.example.careium.frontend.home.activities.HouseholdProfilesActivity
 import com.google.firebase.auth.FirebaseAuth
 
 class SettingsFragment : Fragment(R.layout.fragment_settings) {
@@ -46,6 +47,9 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         binding.rowAiService.setOnClickListener {
             startActivity(Intent(requireContext(), AiCalorieActivity::class.java)
                 .putExtra("open_service_settings", true))
+        }
+        binding.rowHouseholdProfiles.setOnClickListener {
+            startActivity(Intent(requireContext(), HouseholdProfilesActivity::class.java))
         }
         binding.rowReminder.setOnClickListener {
             parentFragmentManager.beginTransaction()

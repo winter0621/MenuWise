@@ -46,6 +46,15 @@ class MealPlanViewModel(application: Application) : AndroidViewModel(application
         else if (index != null && food != null) foods[index] = food.copy(eatenGrams = foods[index].eatenGrams)
         save(plan.replaceFoods(mealId, foods))
     }
+    fun applySubstitution(mealId: String, index: Int, food: PlannedFood) {
+        val old = state.value!!
+        if (old.busy) return
+        val plan = old.plan ?: throw IllegalArgumentException("请先计算每日目标")
+        val foods = plan.meals.first { it.id == mealId }.foods.toMutableList()
+        require(index in foods.indices) { "找不到要替换的食物" }
+        foods[index] = food.copy(eatenGrams = null)
+        save(plan.replaceFoods(mealId, foods))
+    }
     fun importQuery(mealId: String, result: JSONObject) {
         val old = state.value!!
         if (old.busy) return
@@ -123,6 +132,7 @@ class MealPlanViewModel(application: Application) : AndroidViewModel(application
     }
     fun shoppingItems(date: String = MealPlanStore.today()) = store.groceryItems(date)
     fun markPurchased(name: String, purchased: Boolean) = store.setPurchased(name, purchased)
+    fun setFoodExpiry(name: String, date: String?) = store.setExpiry(name, date)
     fun weeklyReview(date: String = MealPlanStore.today()) = store.weeklyReview(date)
     fun savedPlans() = store.dates().mapNotNull { store.load(it) }
     override fun onCleared() { executor.shutdownNow(); super.onCleared() }

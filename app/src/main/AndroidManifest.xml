@@ -21,6 +21,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Careium">
+        <activity android:name=".frontend.home.activities.HouseholdProfilesActivity" android:exported="false" />
+        <activity android:name=".frontend.home.activities.WellnessInsightsActivity" android:exported="false" />
         <activity android:name=".frontend.home.activities.MealPlanActivity" android:exported="false" />
         <activity android:name=".frontend.home.activities.MealPlanToolsActivity" android:exported="false" />
         <activity
@@ -35,6 +37,11 @@
                 android:resource="@xml/ai_file_paths" />
         </provider>
         <receiver android:name=".core.planning.MealPlanReminderReceiver" android:enabled="true" android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name=".core.planning.FoodExpiryReminderReceiver" android:enabled="true" android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>

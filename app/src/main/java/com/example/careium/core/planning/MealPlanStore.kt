@@ -35,6 +35,7 @@ class MealPlanStore(context: Context) {
         val calendar = Calendar.getInstance().apply { time = start; add(Calendar.DATE, 7) }
         val end = format.format(calendar.time)
         val checked = try { JSONObject((preferences.getString("shopping_checklist", "{}") ?: "{}")) } catch (_: Exception) { JSONObject() }
+        val expiries = expiryJson()
         val totals = linkedMapOf<String, Double>()
         dates().filter { it >= today && it < end }.forEach { date ->
             load(date)?.meals?.forEach { meal -> meal.foods.forEach { food ->
@@ -43,14 +44,30 @@ class MealPlanStore(context: Context) {
             } }
         }
         return totals.toSortedMap().map { (name, grams) -> GroceryItem(name, grams,
-            checked.optBoolean(groceryKey(name), false)) }
+            checked.optBoolean(groceryKey(name), false), expiries.optString(groceryKey(name)).ifBlank { null }) }
     }
     fun setPurchased(name: String, purchased: Boolean) {
         val checked = try { JSONObject((preferences.getString("shopping_checklist", "{}") ?: "{}")) } catch (_: Exception) { JSONObject() }
         if (purchased) checked.put(groceryKey(name), true) else checked.remove(groceryKey(name))
         preferences.edit().putString("shopping_checklist", checked.toString()).apply()
     }
+    fun setExpiry(name: String, date: String?) {
+        val expiries = expiryJson()
+        if (date == null) expiries.remove(groceryKey(name)) else {
+            require(validDate(date)) { "保质期日期无效" }
+            expiries.put(groceryKey(name), date)
+        }
+        check(preferences.edit().putString("grocery_expiries", expiries.toString()).commit()) { "保质期保存失败" }
+    }
+    fun expiryEntries(): List<Pair<String, String>> {
+        val values = expiryJson()
+        return values.keys().asSequence().mapNotNull { key -> values.optString(key).takeIf { validDate(it) }?.let { key to it } }.toList()
+    }
+    private fun expiryJson() = try { JSONObject((preferences.getString("grocery_expiries", "{}") ?: "{}")) } catch (_: Exception) { JSONObject() }
     private fun groceryKey(name: String) = name.trim().lowercase(Locale.ROOT)
+    private fun validDate(value: String): Boolean = try {
+        SimpleDateFormat("yyyy-MM-dd", Locale.US).apply { isLenient = false }.parse(value) != null
+    } catch (_: Exception) { false }
 
     companion object {
         fun today(): String = SimpleDateFormat("yyyy-MM-dd", Locale.US).format(Date())

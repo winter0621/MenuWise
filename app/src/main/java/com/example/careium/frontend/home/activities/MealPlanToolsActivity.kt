@@ -1,5 +1,6 @@
 package com.example.careium.frontend.home.activities
 
+import android.app.DatePickerDialog
 import android.content.Intent
 import android.graphics.Paint
 import android.os.Bundle
@@ -13,6 +14,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.careium.R
 import com.example.careium.core.planning.*
 import com.google.android.material.button.MaterialButton
+import java.text.SimpleDateFormat
+import java.util.Calendar
 import java.util.Locale
 
 class MealPlanToolsActivity : AppCompatActivity() {
@@ -71,6 +74,7 @@ class MealPlanToolsActivity : AppCompatActivity() {
             list.addView(action("去安排食物") { finish() })
         } else {
             items.forEach { item ->
+                val itemRow = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL }
                 val box = AppCompatCheckBox(this).apply {
                     text = "${item.name}  ·  ${number(item.grams)} 克"; textSize = 16f
                     setTextColor(getColor(R.color.mw_ink)); minHeight = dp(60)
@@ -82,7 +86,16 @@ class MealPlanToolsActivity : AppCompatActivity() {
                         updateSummary()
                     }
                 }
-                list.addView(box, LinearLayout.LayoutParams(-1, -2))
+                itemRow.addView(box, LinearLayout.LayoutParams(-1, -2))
+                itemRow.addView(label(expiryLabel(item.expiresOn), 13f, true))
+                val expiryActions = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL }
+                expiryActions.addView(action(if (item.expiresOn == null) "设置保质期" else "修改保质期") { pickExpiry(item) },
+                    LinearLayout.LayoutParams(0, -2, 1f).apply { marginEnd = dp(4) })
+                if (item.expiresOn != null) expiryActions.addView(action("清除日期") {
+                    model.setFoodExpiry(item.name, null); FoodExpiryReminder.cancel(this, item.name); renderShopping()
+                }, LinearLayout.LayoutParams(0, -2, 1f).apply { marginStart = dp(4) })
+                itemRow.addView(expiryActions)
+                list.addView(itemRow, LinearLayout.LayoutParams(-1, -2))
             }
             content.addView(action("分享待采购清单") {
                 val remaining = model.shoppingItems(date).filterNot { it.purchased }
@@ -99,7 +112,31 @@ class MealPlanToolsActivity : AppCompatActivity() {
                     }.show()
             })
         }
-        content.addView(label("食物重量来自计划；复合菜品按菜名汇总，采购时请按做法拆分食材。", 12f, true))
+        content.addView(label("食物重量来自计划；复合菜品按菜名汇总，采购时请按做法拆分食材。保质期为本机记录，临期通知通常在到期前一天上午发送。", 12f, true))
+    }
+    private fun pickExpiry(item: GroceryItem) {
+        val calendar = Calendar.getInstance()
+        item.expiresOn?.let { value -> runCatching { SimpleDateFormat("yyyy-MM-dd", Locale.US).parse(value) }.getOrNull()?.let { calendar.time = it } }
+        DatePickerDialog(this, { _, year, month, day ->
+            val date = String.format(Locale.US, "%04d-%02d-%02d", year, month + 1, day)
+            model.setFoodExpiry(item.name, date)
+            FoodExpiryReminder.cancel(this, item.name)
+            FoodExpiryReminder.schedule(this, item.name, date)
+            renderShopping()
+        }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show()
+    }
+    private fun expiryLabel(expiresOn: String?): String {
+        if (expiresOn == null) return "保质期：未设置"
+        val days = try {
+            val format = SimpleDateFormat("yyyy-MM-dd", Locale.US)
+            ((format.parse(expiresOn)!!.time - format.parse(MealPlanStore.today())!!.time) / (24 * 60 * 60 * 1000)).toInt()
+        } catch (_: Exception) { return "保质期日期无效" }
+        return when {
+            days < 0 -> "保质期：$expiresOn · 已过期${-days}天，请确认是否仍可食用"
+            days == 0 -> "保质期：$expiresOn · 今天到期，建议优先使用"
+            days == 1 -> "保质期：$expiresOn · 明天到期"
+            else -> "保质期：$expiresOn · 还剩${days}天"
+        }
     }
     private fun renderReview() {
         content.removeAllViews()

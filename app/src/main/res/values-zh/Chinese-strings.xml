@@ -84,6 +84,12 @@
     <string name="home_no_meal">还没有记录饮食</string>
     <string name="home_remaining_unit">千卡可摄入</string>
     <string name="home_daily_target">今日目标</string>
+    <string name="home_budget_title">剩余营养预算</string>
+    <string name="home_budget_note">蛋白质、碳水和脂肪仅统计已知营养值的食物。</string>
+    <string name="home_budget_remaining">剩余 %1$d %2$s</string>
+    <string name="home_budget_exceeded">已超出 %1$d %2$s</string>
+    <string name="home_budget_recorded">已记录 %1$d / %2$d %3$s</string>
+    <string name="home_budget_known">已知 %1$d / %2$d %3$s · %4$d/%5$d 项</string>
     <string name="content_previous_day">前一天</string>
     <string name="content_next_day">后一天</string>
     <string name="content_record_meal">记录一餐</string>
