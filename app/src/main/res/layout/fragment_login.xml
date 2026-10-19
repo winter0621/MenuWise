@@ -7,10 +7,61 @@
     android:background="@color/mw_canvas"
     tools:context=".frontend.authentication.fragments.LoginFragment">
 
+    <ImageView
+        android:id="@+id/login_hero_image"
+        android:layout_width="match_parent"
+        android:layout_height="286dp"
+        android:contentDescription="@null"
+        android:scaleType="centerCrop"
+        android:src="@drawable/auth_background" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="286dp"
+        android:background="#68172C20" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="42dp"
+        android:layout_marginEnd="28dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="MENUWISE"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:text="吃得明白，\n生活更轻松"
+            android:textColor="@color/white"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:lineSpacingExtra="3dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="记录每一餐，也照顾每一天。"
+            android:textColor="#E8F2EC"
+            android:textSize="14sp" />
+    </LinearLayout>
+
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:layout_marginTop="224dp"
+        android:background="@drawable/auth_login_surface"
+        android:fillViewport="true"
+        android:clipToPadding="false">
 
         <LinearLayout
             android:id="@+id/fragment_view"
@@ -19,28 +70,17 @@
             android:gravity="center_horizontal"
             android:orientation="vertical"
             android:paddingStart="24dp"
-            android:paddingTop="32dp"
+            android:paddingTop="30dp"
             android:paddingEnd="24dp"
             android:paddingBottom="32dp">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans"
-                android:text="@string/login_brand"
-                android:textColor="@color/mw_primary"
-                android:textSize="14sp"
-                android:letterSpacing="0.12"
-                android:textStyle="bold" />
-
-            <TextView
                 android:id="@+id/login_label"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="18dp"
                 android:text="@string/login_heading"
                 android:textColor="@color/mw_ink"
-                android:textSize="28sp"
+                android:textSize="26sp"
                 android:fontFamily="sans"
                 android:textStyle="bold" />
 
@@ -48,7 +88,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:gravity="center"
+                android:gravity="start"
                 android:text="@string/login_subtitle"
                 android:textColor="@color/mw_muted"
                 android:textSize="15sp"
@@ -58,16 +98,14 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:background="@drawable/mw_surface_card"
-                android:elevation="2dp"
+                android:layout_marginTop="24dp"
                 android:orientation="vertical"
-                android:padding="20dp">
+                android:padding="0dp">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="18dp"
+                    android:layout_marginBottom="16dp"
                     android:text="@string/login_form_title"
                     android:textColor="@color/mw_ink"
                     android:textSize="18sp"
@@ -83,10 +121,10 @@
                     app:boxBackgroundMode="outline"
                     app:startIconDrawable="@drawable/ic_auth_email"
                     app:startIconTint="@color/mw_muted"
-                    app:boxCornerRadiusTopStart="14dp"
-                    app:boxCornerRadiusTopEnd="14dp"
-                    app:boxCornerRadiusBottomStart="14dp"
-                    app:boxCornerRadiusBottomEnd="14dp"
+                    app:boxCornerRadiusTopStart="10dp"
+                    app:boxCornerRadiusTopEnd="10dp"
+                    app:boxCornerRadiusBottomStart="10dp"
+                    app:boxCornerRadiusBottomEnd="10dp"
                     app:boxStrokeWidth="1dp"
                     app:boxStrokeWidthFocused="2dp"
                     app:boxStrokeColor="@color/mw_primary">
@@ -106,16 +144,16 @@
                     android:id="@+id/login_password_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="18dp"
+                    android:layout_marginTop="14dp"
                     android:hint="@string/login_password_label"
                     app:hintTextColor="@color/mw_muted"
                     app:boxBackgroundMode="outline"
                     app:startIconDrawable="@drawable/ic_auth_lock"
                     app:startIconTint="@color/mw_muted"
-                    app:boxCornerRadiusTopStart="14dp"
-                    app:boxCornerRadiusTopEnd="14dp"
-                    app:boxCornerRadiusBottomStart="14dp"
-                    app:boxCornerRadiusBottomEnd="14dp"
+                    app:boxCornerRadiusTopStart="10dp"
+                    app:boxCornerRadiusTopEnd="10dp"
+                    app:boxCornerRadiusBottomStart="10dp"
+                    app:boxCornerRadiusBottomEnd="10dp"
                     app:boxStrokeWidth="1dp"
                     app:boxStrokeWidthFocused="2dp"
                     app:boxStrokeColor="@color/mw_primary"
@@ -152,7 +190,7 @@
                     android:textSize="16sp"
                     android:textStyle="bold"
                     app:backgroundTint="@color/mw_primary"
-                    app:cornerRadius="16dp" />
+                    app:cornerRadius="10dp" />
 
                 <ProgressBar
                     android:id="@+id/login_progress"
@@ -171,7 +209,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="22dp"
+                android:layout_marginTop="26dp"
                 android:gravity="center"
                 android:orientation="horizontal">
 

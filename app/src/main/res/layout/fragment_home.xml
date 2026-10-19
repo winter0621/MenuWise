@@ -25,6 +25,26 @@
         <com.google.android.material.button.MaterialButton android:id="@+id/button_ai_calories" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:text="AI 查询 · 了解食物热量" android:textAllCaps="false" android:textSize="16sp" app:cornerRadius="16dp" style="@style/Widget.MenuWise.Secondary" />
         <com.google.android.material.button.MaterialButton android:id="@+id/button_record_meal" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:contentDescription="@string/content_record_meal" android:text="记录实际食用量" android:textAllCaps="false" android:textSize="16sp" android:textStyle="bold" app:cornerRadius="16dp" style="@style/Widget.MenuWise.Secondary" />
         <com.google.android.material.button.MaterialButton android:id="@+id/button_wellness_insights" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:text="健康洞察 · 近 7 天趋势" android:textAllCaps="false" android:textSize="16sp" app:cornerRadius="16dp" style="@style/Widget.MenuWise.Secondary" />
+        <LinearLayout
+            android:id="@+id/card_today_tasks"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:background="@drawable/mw_soft_card"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
+            android:orientation="vertical"
+            android:padding="16dp">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center_vertical" android:orientation="horizontal">
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="今日健康任务" android:textColor="@color/mw_ink" android:textSize="18sp" android:textStyle="bold" />
+                <TextView android:id="@+id/home_task_summary" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="@color/mw_primary" android:textSize="14sp" android:textStyle="bold" tools:text="1 / 3 已完成" />
+            </LinearLayout>
+            <TextView android:id="@+id/home_task_plan" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="10dp" android:textColor="@color/mw_ink" android:textSize="14sp" tools:text="○ 制定今天的饮食计划" />
+            <TextView android:id="@+id/home_task_food" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:textColor="@color/mw_ink" android:textSize="14sp" tools:text="○ 记录实际食用量" />
+            <TextView android:id="@+id/home_task_water" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:textColor="@color/mw_ink" android:textSize="14sp" tools:text="○ 补充 1500 ml 饮水" />
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="10dp" android:text="查看 7 天趋势与完成建议 ›" android:textColor="@color/mw_primary" android:textSize="13sp" />
+        </LinearLayout>
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="24dp" android:text="所选日期的饮食记录" android:textColor="@color/mw_ink" android:textSize="18sp" android:textStyle="bold" />
         <TextView android:id="@+id/home_meal_summary" android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="18dp" android:background="@drawable/mw_surface_card" android:layout_marginTop="12dp" android:textColor="@color/mw_ink" android:textSize="15sp" android:lineSpacingExtra="8dp" />
         <TextView android:id="@+id/home_budget_heading" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="24dp" android:text="@string/home_budget_title" android:textColor="@color/mw_ink" android:textSize="18sp" android:textStyle="bold" />

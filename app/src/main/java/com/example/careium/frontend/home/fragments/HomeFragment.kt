@@ -14,6 +14,7 @@ import com.example.careium.frontend.factory.NutritionViewModel
 import com.example.careium.frontend.home.activities.AiCalorieActivity
 import com.example.careium.frontend.home.activities.MealPlanActivity
 import com.example.careium.frontend.home.activities.WellnessInsightsActivity
+import com.google.firebase.auth.FirebaseAuth
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -40,6 +41,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         binding.homeMealSummary.setOnClickListener { openPlan() }
         binding.buttonAiCalories.setOnClickListener { startActivity(Intent(requireContext(), AiCalorieActivity::class.java)) }
         binding.buttonWellnessInsights.setOnClickListener { startActivity(Intent(requireContext(), WellnessInsightsActivity::class.java)) }
+        binding.cardTodayTasks.setOnClickListener { startActivity(Intent(requireContext(), WellnessInsightsActivity::class.java)) }
         val classifier = ViewModelProvider(requireActivity()).get(ClassifierViewModel::class.java)
         classifier.mutableDishName.observe(viewLifecycleOwner) { binding.textLastCaptured.text = it }
         classifier.mutableDishImage.observe(viewLifecycleOwner) {
@@ -80,7 +82,27 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             } + "\n\n点击查看或记录实际份量 · 数据保存在本机"
         } ?: "这一天还没有饮食计划。\n点击卡片设置目标，再添加食物并记录实际份量。"
         binding.buttonRecordMeal.text = if (plan == null) "开始记录 · 先设置目标" else "记录实际食用量"
+        renderTodayTasks(plan)
         renderNutritionBudget(plan)
+    }
+
+    private fun renderTodayTasks(plan: com.example.careium.core.planning.DailyMealPlan?) {
+        val planDone = plan != null
+        val foodDone = plan?.trackedFoods?.let { it > 0 } == true
+        val water = waterIntake(selectedDate())
+        val waterDone = water >= 1500
+        val done = listOf(planDone, foodDone, waterDone).count { it }
+        binding.homeTaskSummary.text = "$done / 3 已完成"
+        binding.homeTaskPlan.text = if (planDone) "✓ 已制定今天的饮食计划" else "○ 制定今天的饮食计划"
+        binding.homeTaskFood.text = if (foodDone) "✓ 已记录实际食用量" else "○ 记录实际食用量"
+        binding.homeTaskWater.text = if (waterDone) "✓ 饮水已达 1500 ml" else "○ 补充饮水 · 已记录 $water / 1500 ml"
+    }
+
+    private fun waterIntake(date: String): Int {
+        val context = requireContext()
+        val offline = context.getSharedPreferences("menuwise_local", 0).getBoolean("offline_mode", false)
+        val account = if (offline) "local" else FirebaseAuth.getInstance().currentUser?.uid ?: "local"
+        return context.getSharedPreferences("water_intake", 0).getInt("$account:$date", 0)
     }
 
     private fun renderNutritionBudget(plan: com.example.careium.core.planning.DailyMealPlan?) {
