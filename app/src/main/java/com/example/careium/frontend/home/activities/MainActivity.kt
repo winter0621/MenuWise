@@ -151,6 +151,16 @@ class MainActivity : AppCompatActivity() {
                     binding.drawerLayout.closeDrawers()
                     true
                 }
+                R.id.menu_item_settings -> {
+                    loadFragment(SettingsFragment.newInstance())
+                    binding.drawerLayout.closeDrawers()
+                    true
+                }
+                R.id.menu_item_help -> {
+                    loadFragment(HelpFragment.newInstance())
+                    binding.drawerLayout.closeDrawers()
+                    true
+                }
                 R.id.menu_item_logout -> {
                     logout()
                     true

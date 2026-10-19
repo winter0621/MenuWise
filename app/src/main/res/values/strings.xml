@@ -197,6 +197,27 @@
     <string name="content_record_meal">Record a meal</string>
     <string name="recommendation_subtitle">Suggestions based on your daily target</string>
     <string name="recommendation_energy">Energy</string>
+    <string name="recommendation_match">%1$d%% match</string>
+    <string name="recommendation_above_target">%1$d kcal above this meal’s guide</string>
+    <string name="recommendation_below_target">%1$d kcal below this meal’s guide</string>
+    <string name="recommendation_on_target">Matches this meal’s guide</string>
+    <string name="recommendation_reason_close">Close to the suggested %1$d kcal range.</string>
+    <string name="recommendation_reason_room">Leaves about %1$d kcal for sides or drinks.</string>
+    <string name="recommendation_reason_over">About %1$d kcal over the guide; reduce the portion if needed.</string>
+    <string name="recommendation_reason_lose">Its energy fits a moderate weight-loss target.</string>
+    <string name="recommendation_reason_portion">A smaller portion would better support weight loss.</string>
+    <string name="recommendation_reason_gain">Its energy is suitable for a gradual weight-gain target.</string>
+    <string name="recommendation_reason_addition">Add milk, nuts or a staple food if you need more energy.</string>
+    <string name="recommendation_reason_patient">Check ingredients and portions against professional dietary advice.</string>
+    <string name="recommendation_reason_balance">Its energy is suitable for balanced daily management.</string>
+    <string name="recommendation_reason_plan">Calculated from today’s plan and recorded intake.</string>
+    <string name="recommendation_reason_profile">Estimated from your age, height, weight and goal.</string>
+    <string name="recommendation_goal_lose">moderate weight loss</string>
+    <string name="recommendation_goal_gain">gradual weight gain</string>
+    <string name="recommendation_goal_patient">dietary support</string>
+    <string name="recommendation_goal_balance">balanced management</string>
+    <string name="recommendation_context_plan">Suggested for this meal: about %1$d kcal · Goal: %2$s\nRecorded today: %3$d / %4$d kcal</string>
+    <string name="recommendation_context_profile">Suggested for this meal: about %1$d kcal · Goal: %2$s\nNo plan for today, so this is estimated from your profile</string>
     <string name="reminders_subtitle">Keep your meal rhythm on track</string>
     <!-- 在中文 strings.xml 中 -->
     <string-array name="food_list">
@@ -205,4 +226,38 @@
         <item>米饭</item>
     </string-array>
 
+    <string name="confirm">Got it</string>
+    <string name="settings_title">Settings</string>
+    <string name="settings_subtitle">Manage how MenuWise works for you.</string>
+    <string name="settings_offline_mode">Local mode</string>
+    <string name="settings_mode_online_available">When enabled, records stay on this device. Turn it off to use your signed-in account.</string>
+    <string name="settings_mode_local_only">You are using MenuWise without an account. Sign in to enable cloud sync.</string>
+    <string name="settings_offline_enabled">Local mode enabled</string>
+    <string name="settings_online_enabled">Account mode enabled</string>
+    <string name="settings_services">Services and preferences</string>
+    <string name="settings_ai_service">AI nutrition service</string>
+    <string name="settings_reminders">Meal reminders</string>
+    <string name="settings_language">System language</string>
+    <string name="settings_about">About</string>
+    <string name="settings_privacy">Data and privacy</string>
+    <string name="settings_version">App version</string>
+    <string name="settings_version_value">MenuWise %1$s</string>
+    <string name="settings_privacy_title">Data and privacy</string>
+    <string name="settings_privacy_message">Local-mode meal plans, diary entries and water records remain on this device. Account-mode profile and nutrition records may be stored through Firebase. AI analysis sends only the information needed for the selected service. Do not enter passwords, identity numbers or other sensitive information in meal notes.</string>
+    <string name="help_title">Help</string>
+    <string name="help_subtitle">A quick guide to recording meals, planning and understanding results.</string>
+    <string name="help_quick_start">Quick start</string>
+    <string name="help_quick_start_steps">1. Use Quick Add to record a meal or water.\n2. Open Meal Plan to arrange today’s meals.\n3. Review nutrition totals on Home and Reports.\n4. Use reminders to keep a regular meal rhythm.</string>
+    <string name="help_faq">Frequently asked questions</string>
+    <string name="help_q_recognition">What if food recognition is inaccurate?</string>
+    <string name="help_a_recognition">Use a clear, well-lit photo with one main dish. Review the food name, portion and nutrition result before saving. AI estimates are references rather than medical measurements.</string>
+    <string name="help_q_offline">What is local mode?</string>
+    <string name="help_a_offline">Local mode works without signing in. Meal plans, diary entries and water records are stored only on this device and are not automatically restored after uninstalling the app.</string>
+    <string name="help_q_report">Why is a report empty?</string>
+    <string name="help_a_report">Reports require saved meal records in the selected period. Record meals first, then return to Reports. In account mode, also check the network connection.</string>
+    <string name="help_q_reminder">Why did a reminder not appear?</string>
+    <string name="help_a_reminder">Check that notification and exact-alarm permissions are allowed, and that battery optimization is not restricting MenuWise. Then set the reminder again.</string>
+    <string name="help_q_data">Where is my data stored?</string>
+    <string name="help_a_data">Local-mode data stays on this phone. Signed-in profile and nutrition data may sync through Firebase. AI requests follow the service configured in AI nutrition settings.</string>
+    <string name="help_health_notice">MenuWise provides dietary reference information and does not replace medical diagnosis or professional nutrition advice.</string>
 </resources>

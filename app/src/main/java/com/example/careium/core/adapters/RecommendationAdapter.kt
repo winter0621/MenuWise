@@ -28,12 +28,22 @@ class RecommendationAdapter(private val FoodArrayList: ArrayList<FoodCalories>
         val food: FoodCalories = FoodArrayList[position]
         holder.foodName.text = food.getFoodName()
         holder.foodCalories.text = food.getFoodCalories().toString()
+        holder.explanation.text = food.explanation
+        holder.match.text = context.getString(R.string.recommendation_match, food.matchPercent)
+        holder.difference.text = when {
+            food.difference > 0 -> context.getString(R.string.recommendation_above_target, food.difference)
+            food.difference < 0 -> context.getString(R.string.recommendation_below_target, -food.difference)
+            else -> context.getString(R.string.recommendation_on_target)
+        }
     }
 
     class ViewHolder(itemView: View)
         : RecyclerView.ViewHolder(itemView) {
         val foodName: TextView = itemView.findViewById(R.id.food_name)
         val foodCalories: TextView = itemView.findViewById(R.id.food_calories)
+        val explanation: TextView = itemView.findViewById(R.id.food_explanation)
+        val match: TextView = itemView.findViewById(R.id.food_match)
+        val difference: TextView = itemView.findViewById(R.id.food_difference)
     }
 
 }

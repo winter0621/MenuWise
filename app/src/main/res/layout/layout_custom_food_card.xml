@@ -6,69 +6,83 @@
     android:layout_marginBottom="10dp"
     android:background="@drawable/mw_surface_card"
     android:elevation="2dp"
-    android:gravity="center_vertical"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     android:padding="16dp">
 
-    <TextView
-        android:layout_width="42dp"
-        android:layout_height="42dp"
-        android:background="@drawable/mw_soft_card"
-        android:gravity="center"
-        android:text="@string/recommendation_energy"
-        android:textColor="@color/mw_primary"
-        android:textSize="10sp"
-        android:textStyle="bold" />
-
     <LinearLayout
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="14dp"
-        android:layout_weight="1"
-        android:orientation="vertical">
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/food_match"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:background="@drawable/mw_soft_card"
+            android:gravity="center"
+            android:minWidth="68dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:textColor="@color/mw_primary"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            tools:text="匹配 93%" />
 
         <TextView
             android:id="@+id/food_name"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_weight="1"
             android:ellipsize="end"
-            android:maxLines="1"
+            android:maxLines="2"
             android:textColor="@color/mw_ink"
             android:textSize="16sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:text="香煎鸡胸藜麦碗" />
 
-        <TextView
-            android:id="@+id/food_name_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="3dp"
-            android:text="@string/recommendation_subtitle"
-            android:textColor="@color/mw_muted"
-            android:textSize="12sp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="end"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/food_calories"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="end"
-            android:textColor="@color/mw_calories"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            tools:text="420" />
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/food_calories_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/calories"
-            android:textColor="@color/mw_muted"
-            android:textSize="12sp" />
+            <TextView
+                android:id="@+id/food_calories"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/mw_calories"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                tools:text="540" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/calories"
+                android:textColor="@color/mw_muted"
+                android:textSize="11sp" />
+        </LinearLayout>
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/food_difference"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:textColor="@color/mw_primary"
+        android:textSize="13sp"
+        android:textStyle="bold"
+        tools:text="比本餐建议低 20 千卡" />
+
+    <TextView
+        android:id="@+id/food_explanation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:lineSpacingExtra="3dp"
+        android:textColor="@color/mw_muted"
+        android:textSize="13sp"
+        tools:text="热量接近本餐建议范围，适合均衡控制。依据今日饮食计划计算。" />
 </LinearLayout>

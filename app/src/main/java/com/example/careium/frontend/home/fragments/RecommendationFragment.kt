@@ -13,13 +13,19 @@ import com.example.careium.core.database.authentication.InternetConnection
 import com.example.careium.core.database.realtime.UserData
 import com.example.careium.core.models.FoodCalories
 import com.example.careium.core.models.User
+import com.example.careium.core.planning.DailyMealPlan
+import com.example.careium.core.planning.MealPlanStore
 import com.example.careium.databinding.FragmentRecommendationBinding
+import com.example.careium.frontend.factory.FutureGoal
 import com.example.careium.frontend.factory.Gender
 import com.example.careium.frontend.factory.UserDataViewModel
 import java.io.BufferedReader
 import java.io.IOException
 import java.io.InputStream
 import java.io.InputStreamReader
+import java.util.Calendar
+import kotlin.math.abs
+import kotlin.math.roundToInt
 
 
 class RecommendationFragment : Fragment(R.layout.fragment_recommendation) {
@@ -67,13 +73,76 @@ class RecommendationFragment : Fragment(R.layout.fragment_recommendation) {
     }
 
     private fun renderRecommendations(user: User) {
-        val bmr = if (user.height > 0 && user.weight > 0 && user.age > 0) calBMR(user) else 600
+        val plan = MealPlanStore(requireContext()).load(MealPlanStore.today())
+        val target = recommendationTarget(user, plan)
+        val goal = user.futureGoal ?: localGoal() ?: planGoal(plan)
+        binding.recommendationContext.text = recommendationContext(target, plan, goal)
         foodArrayList.clear()
-        foodArrayList.addAll(readFoodCaloriesFile().filter { kotlin.math.abs(it.getFoodCalories() - bmr) <= 200 })
+        foodArrayList.addAll(readFoodCaloriesFile()
+            .map { explain(it, target, goal, plan) }
+            .sortedWith(compareByDescending<FoodCalories> { it.matchPercent }.thenBy { abs(it.difference) })
+            .take(12))
         binding.recommendRecyclerView.layoutManager = LinearLayoutManager(this.context)
         foodAdapter = RecommendationAdapter(foodArrayList, this.requireContext())
         binding.recommendRecyclerView.adapter = foodAdapter
         binding.waitContainer.visibility = View.GONE
+    }
+
+    private fun recommendationTarget(user: User, plan: DailyMealPlan?): Int {
+        if (plan != null) {
+            val hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
+            val mealId = when {
+                hour < 10 -> "breakfast"
+                hour < 15 -> "lunch"
+                hour < 20 -> "dinner"
+                else -> "snack"
+            }
+            plan.meals.firstOrNull { it.id == mealId }?.let {
+                return (it.target - it.eaten).roundToInt().coerceAtLeast(120)
+            }
+            val remainingMeals = plan.meals.count { it.eaten <= 0 }.coerceAtLeast(1)
+            return ((plan.target - plan.eaten) / remainingMeals).roundToInt().coerceAtLeast(120)
+        }
+        return if (user.height > 0 && user.weight > 0 && user.age > 0) calBMR(user) else 600
+    }
+
+    private fun explain(food: FoodCalories, target: Int, goal: FutureGoal?, plan: DailyMealPlan?): FoodCalories {
+        val difference = food.getFoodCalories() - target
+        val match = (100 - abs(difference) * 100 / target.coerceAtLeast(1)).coerceIn(0, 100)
+        val calorieReason = when {
+            abs(difference) <= 50 -> getString(R.string.recommendation_reason_close, target)
+            difference < 0 -> getString(R.string.recommendation_reason_room, -difference)
+            else -> getString(R.string.recommendation_reason_over, difference)
+        }
+        val goalReason = when (goal) {
+            FutureGoal.LoseWeight -> if (difference <= 50) getString(R.string.recommendation_reason_lose) else getString(R.string.recommendation_reason_portion)
+            FutureGoal.GainWeight -> if (difference >= -80) getString(R.string.recommendation_reason_gain) else getString(R.string.recommendation_reason_addition)
+            FutureGoal.PatientTreatment -> getString(R.string.recommendation_reason_patient)
+            else -> getString(R.string.recommendation_reason_balance)
+        }
+        val sourceReason = if (plan != null) getString(R.string.recommendation_reason_plan) else getString(R.string.recommendation_reason_profile)
+        return FoodCalories(food.getFoodName(), food.getFoodCalories(), "$calorieReason $goalReason $sourceReason", match, difference)
+    }
+
+    private fun recommendationContext(target: Int, plan: DailyMealPlan?, goal: FutureGoal?): String {
+        val goalLabel = when (goal) {
+            FutureGoal.LoseWeight -> getString(R.string.recommendation_goal_lose)
+            FutureGoal.GainWeight -> getString(R.string.recommendation_goal_gain)
+            FutureGoal.PatientTreatment -> getString(R.string.recommendation_goal_patient)
+            else -> getString(R.string.recommendation_goal_balance)
+        }
+        return if (plan != null) getString(R.string.recommendation_context_plan, target, goalLabel, plan.eaten.roundToInt(), plan.target)
+        else getString(R.string.recommendation_context_profile, target, goalLabel)
+    }
+
+    private fun localGoal(): FutureGoal? = requireContext().getSharedPreferences("menuwise_local", 0)
+        .getString("goal", null)?.let { runCatching { FutureGoal.valueOf(it) }.getOrNull() }
+
+    private fun planGoal(plan: DailyMealPlan?): FutureGoal? = when (plan?.profile?.goal?.name) {
+        "LOSE" -> FutureGoal.LoseWeight
+        "GAIN" -> FutureGoal.GainWeight
+        "MAINTAIN" -> FutureGoal.FitnessTracker
+        else -> null
     }
 
     private fun calBMR(user: User): Int {
