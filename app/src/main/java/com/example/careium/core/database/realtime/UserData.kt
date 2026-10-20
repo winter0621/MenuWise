@@ -68,26 +68,28 @@ class UserData : Thread() {
     }
 
     private fun setUserData(snapshot: DataSnapshot, user: User) {
+        val value = snapshot.value?.toString()?.trim().orEmpty()
         when (snapshot.key) {
-            "name" -> user.name = snapshot.value.toString()
-            "age" -> user.age = snapshot.value.toString().toInt()
-            "email" -> user.email = snapshot.value.toString()
-            "password" -> user.password = snapshot.value.toString()
-            "height" -> user.height = snapshot.value.toString().toFloat()
-            "weight" -> user.weight = snapshot.value.toString().toFloat()
-            "desired_weight" -> user.desiredWeight = snapshot.value.toString().toFloat()
+            "name" -> user.name = value
+            "age" -> value.toIntOrNull()?.let { user.age = it }
+            "email" -> user.email = value
+            "password" -> user.password = value
+            "height" -> value.toFloatOrNull()?.takeIf { it.isFinite() && it > 0f }?.let { user.height = it }
+            "weight" -> value.toFloatOrNull()?.takeIf { it.isFinite() && it > 0f }?.let { user.weight = it }
+            "desired_weight" -> value.toFloatOrNull()?.takeIf { it.isFinite() && it > 0f }?.let { user.desiredWeight = it }
         }
 
         if (snapshot.key.toString() == "gender") {
-            if (snapshot.value.toString() == "Male") user.gender = Gender.Male
-            else user.gender = Gender.Female
+            when (value) {
+                "Male" -> user.gender = Gender.Male
+                "Female" -> user.gender = Gender.Female
+            }
         } else if (snapshot.key.toString() == "future_goal") {
-            when {
-                snapshot.value.toString() == "LoseWeight" -> user.futureGoal = FutureGoal.LoseWeight
-                snapshot.value.toString() == "GainWeight" -> user.futureGoal = FutureGoal.GainWeight
-                snapshot.value.toString() == "FitnessTracker" -> user.futureGoal =
-                    FutureGoal.FitnessTracker
-                else -> user.futureGoal = FutureGoal.PatientTreatment
+            when (value) {
+                "LoseWeight" -> user.futureGoal = FutureGoal.LoseWeight
+                "GainWeight" -> user.futureGoal = FutureGoal.GainWeight
+                "FitnessTracker" -> user.futureGoal = FutureGoal.FitnessTracker
+                "PatientTreatment" -> user.futureGoal = FutureGoal.PatientTreatment
             }
         }
     }

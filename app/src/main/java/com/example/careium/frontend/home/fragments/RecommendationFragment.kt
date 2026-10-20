@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.careium.R
@@ -15,6 +16,7 @@ import com.example.careium.core.models.FoodCalories
 import com.example.careium.core.models.User
 import com.example.careium.core.planning.DailyMealPlan
 import com.example.careium.core.planning.MealPlanStore
+import com.example.careium.core.planning.PlannedFood
 import com.example.careium.databinding.FragmentRecommendationBinding
 import com.example.careium.frontend.factory.FutureGoal
 import com.example.careium.frontend.factory.Gender
@@ -73,19 +75,28 @@ class RecommendationFragment : Fragment(R.layout.fragment_recommendation) {
     }
 
     private fun renderRecommendations(user: User) {
-        val plan = MealPlanStore(requireContext()).load(MealPlanStore.today())
-        val target = recommendationTarget(user, plan)
-        val goal = user.futureGoal ?: localGoal() ?: planGoal(plan)
-        binding.recommendationContext.text = recommendationContext(target, plan, goal)
-        foodArrayList.clear()
-        foodArrayList.addAll(readFoodCaloriesFile()
-            .map { explain(it, target, goal, plan) }
-            .sortedWith(compareByDescending<FoodCalories> { it.matchPercent }.thenBy { abs(it.difference) })
-            .take(12))
-        binding.recommendRecyclerView.layoutManager = LinearLayoutManager(this.context)
-        foodAdapter = RecommendationAdapter(foodArrayList, this.requireContext())
-        binding.recommendRecyclerView.adapter = foodAdapter
-        binding.waitContainer.visibility = View.GONE
+        if (!isAdded || view == null) return
+        try {
+            val plan = MealPlanStore(requireContext()).load(MealPlanStore.today())
+            val target = recommendationTarget(user, plan)
+            val goal = user.futureGoal ?: localGoal() ?: planGoal(plan)
+            binding.recommendationContext.text = recommendationContext(target, plan, goal)
+            foodArrayList.clear()
+            foodArrayList.addAll(readFoodCaloriesFile()
+                .map { explain(it, target, goal, plan) }
+                .sortedWith(compareByDescending<FoodCalories> { it.matchPercent }.thenBy { abs(it.difference) })
+                .take(12))
+            binding.recommendRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+            foodAdapter = RecommendationAdapter(foodArrayList, requireContext()) { food -> showRecommendationActions(food) }
+            binding.recommendRecyclerView.adapter = foodAdapter
+        } catch (error: Exception) {
+            Log.e("Recommendation", "Unable to render recommendations", error)
+            foodArrayList.clear()
+            binding.recommendationContext.text = "暂时无法读取完整资料，已为你保留饮食计划和热量查询功能。"
+            Toast.makeText(requireContext(), "推荐暂不可用，请稍后重试", Toast.LENGTH_LONG).show()
+        } finally {
+            binding.waitContainer.visibility = View.GONE
+        }
     }
 
     private fun recommendationTarget(user: User, plan: DailyMealPlan?): Int {
@@ -154,22 +165,43 @@ class RecommendationFragment : Fragment(R.layout.fragment_recommendation) {
         return bmr.toInt()
     }
 
+    private fun showRecommendationActions(food: FoodCalories) {
+        val store = MealPlanStore(requireContext())
+        val plan = store.load(MealPlanStore.today())
+        val detail = buildString {
+            append("约 ${food.getFoodCalories()} 千卡 / 份\n\n")
+            append(food.explanation)
+            append("\n\n热量为参考估算；加入计划后可再按实际食用量记录。")
+        }
+        if (plan == null) {
+            AlertDialog.Builder(requireContext()).setTitle(food.getFoodName()).setMessage(detail)
+                .setNegativeButton("关闭", null).setPositiveButton("去创建计划") { _, _ ->
+                    startActivity(android.content.Intent(requireContext(), com.example.careium.frontend.home.activities.MealPlanActivity::class.java))
+                }.show()
+            return
+        }
+        AlertDialog.Builder(requireContext()).setTitle(food.getFoodName()).setMessage(detail)
+            .setItems(plan.meals.map { "加入${it.label}" }.toTypedArray()) { _, index ->
+                try {
+                    store.addFood(plan.date, plan.meals[index].id, PlannedFood(food.getFoodName(), 300.0, food.getFoodCalories().toDouble()))
+                    Toast.makeText(requireContext(), "已加入${plan.meals[index].label}计划", Toast.LENGTH_LONG).show()
+                } catch (error: IllegalArgumentException) {
+                    Toast.makeText(requireContext(), error.message ?: "加入计划失败", Toast.LENGTH_LONG).show()
+                }
+            }.setNegativeButton("关闭", null).show()
+    }
+
     private fun readFoodCaloriesFile(): ArrayList<FoodCalories> {
         val foodCalories: ArrayList<FoodCalories> = ArrayList()
-        val textFile: InputStream = (this.resources.openRawResource(R.raw.food_recommendation))
-        val reader = BufferedReader(InputStreamReader(textFile))
-        var record: String
-        while (true) {
-            try {
-                if (reader.readLine().also { record = it ?: "" }.isEmpty()) break
-                val recordList = record.split(",")
-                foodCalories.add(FoodCalories(recordList[0], recordList[1].toInt()))
-            } catch (e: IOException) {
-                Log.d("DLModels", "Error in Reading C1 Classes File")
+        val textFile: InputStream = resources.openRawResource(R.raw.food_recommendation)
+        BufferedReader(InputStreamReader(textFile)).useLines { lines ->
+            lines.map { it.trim() }.filter { it.isNotEmpty() }.forEach { record ->
+                val parts = record.split(",", limit = 2)
+                val calories = parts.getOrNull(1)?.trim()?.toIntOrNull()
+                if (parts.firstOrNull()?.isNotBlank() == true && calories != null) foodCalories.add(FoodCalories(parts[0].trim(), calories))
+                else Log.w("Recommendation", "Ignored malformed food recommendation entry")
             }
         }
-
-        textFile.close()
         return foodCalories
     }
 

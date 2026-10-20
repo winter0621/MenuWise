@@ -26,6 +26,12 @@ class MealPlanStore(context: Context) {
             .putString("last_profile", profileJson(plan.profile).toString())
         editor.apply()
     }
+    fun addFood(date: String, mealId: String, food: PlannedFood) {
+        food.validate()
+        val plan = load(date) ?: throw IllegalArgumentException("请先为今天创建饮食计划")
+        val meal = plan.meals.firstOrNull { it.id == mealId } ?: throw IllegalArgumentException("找不到对应餐次")
+        save(plan.replaceFoods(mealId, meal.foods + food))
+    }
     fun lastProfile(): PlanProfile? = try {
         preferences.getString("last_profile", null)?.let { decodeProfile(JSONObject(it)) }
     } catch (_: Exception) { null }

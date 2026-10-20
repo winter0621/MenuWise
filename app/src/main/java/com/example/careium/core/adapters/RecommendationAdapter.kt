@@ -9,8 +9,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.careium.R
 import com.example.careium.core.models.FoodCalories
 
-class RecommendationAdapter(private val FoodArrayList: ArrayList<FoodCalories>
-, private val context: Context) : RecyclerView.Adapter<RecommendationAdapter.ViewHolder>(){
+class RecommendationAdapter(
+    private val foodArrayList: ArrayList<FoodCalories>,
+    private val context: Context,
+    private val onFoodClick: (FoodCalories) -> Unit
+) : RecyclerView.Adapter<RecommendationAdapter.ViewHolder>(){
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -21,11 +24,11 @@ class RecommendationAdapter(private val FoodArrayList: ArrayList<FoodCalories>
     }
 
     override fun getItemCount(): Int {
-        return FoodArrayList.count()
+        return foodArrayList.count()
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val food: FoodCalories = FoodArrayList[position]
+        val food: FoodCalories = foodArrayList[position]
         holder.foodName.text = food.getFoodName()
         holder.foodCalories.text = food.getFoodCalories().toString()
         holder.explanation.text = food.explanation
@@ -35,6 +38,7 @@ class RecommendationAdapter(private val FoodArrayList: ArrayList<FoodCalories>
             food.difference < 0 -> context.getString(R.string.recommendation_below_target, -food.difference)
             else -> context.getString(R.string.recommendation_on_target)
         }
+        holder.itemView.setOnClickListener { onFoodClick(food) }
     }
 
     class ViewHolder(itemView: View)
