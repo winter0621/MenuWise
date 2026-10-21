@@ -15,7 +15,7 @@ import com.example.careium.core.wellness.WellnessDay
 import com.example.careium.core.wellness.WellnessInsightCalculator
 import com.example.careium.core.wellness.WellnessSignal
 import com.google.android.material.button.MaterialButton
-import com.google.firebase.auth.FirebaseAuth
+import com.example.careium.core.database.authentication.LocalAccountStore
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -82,8 +82,7 @@ class WellnessInsightsActivity : AppCompatActivity() {
     private fun lastSevenDays(store: MealPlanStore): List<WellnessDay> {
         val format = SimpleDateFormat("yyyy-MM-dd", Locale.US)
         val water = getSharedPreferences("water_intake", Context.MODE_PRIVATE)
-        val offline = getSharedPreferences("menuwise_local", Context.MODE_PRIVATE).getBoolean("offline_mode", false)
-        val account = if (offline) "local" else FirebaseAuth.getInstance().currentUser?.uid ?: "local"
+        val account = LocalAccountStore.currentAccountId(this)
         return (6 downTo 0).map { offset ->
             val date = format.format(Calendar.getInstance().apply { add(Calendar.DATE, -offset) }.time)
             WellnessDay(date, store.load(date), water.getInt("$account:$date", 0))

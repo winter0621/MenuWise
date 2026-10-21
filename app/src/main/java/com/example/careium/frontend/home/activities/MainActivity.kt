@@ -21,6 +21,7 @@ import androidx.lifecycle.ViewModelProviders
 // 移除了 import com.etebarian.meowbottomnavigation.MeowBottomNavigation
 import com.example.careium.R
 import com.example.careium.core.database.authentication.InternetConnection
+import com.example.careium.core.database.authentication.LocalAccountStore
 import com.example.careium.core.database.authentication.Logout
 import com.example.careium.core.database.authentication.SharedPreferences
 import com.example.careium.core.database.realtime.DishImage
@@ -62,6 +63,11 @@ class MainActivity : AppCompatActivity() {
         if (InternetConnection.isConnected(this) && !getSharedPreferences("menuwise_local", MODE_PRIVATE).getBoolean("offline_mode", false)) {
             val userData = UserData()
             userData.getUserData(userDataViewModel)
+        } else {
+            val name = getSharedPreferences("menuwise_local", MODE_PRIVATE).getString("name", "").orEmpty()
+            if (name.isNotEmpty()) {
+                binding.navigationView.getHeaderView(0).findViewById<TextView>(R.id.text_user_name).text = name
+            }
         }
 
         nutritionViewModel = ViewModelProviders.of(this).get(NutritionViewModel::class.java)
@@ -283,7 +289,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun showWaterDialog() {
         val prefs = getSharedPreferences("water_intake", MODE_PRIVATE)
-        val account = if (getSharedPreferences("menuwise_local", MODE_PRIVATE).getBoolean("offline_mode", false)) "local" else com.google.firebase.auth.FirebaseAuth.getInstance().currentUser?.uid ?: "local"
+        val account = LocalAccountStore.currentAccountId(this)
         val key = account + ":" + com.example.careium.core.planning.MealPlanStore.today()
         val total = prefs.getInt(key, 0)
         androidx.appcompat.app.AlertDialog.Builder(this).setTitle("今日饮水 · $total 毫升")
@@ -314,6 +320,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun logout() {
         getSharedPreferences("menuwise_local", MODE_PRIVATE).edit().putBoolean("offline_mode", false).apply()
+        LocalAccountStore(this).logout()
         deleteEmailFromSharedPreference()
         signOut()
         startActivity(Intent(this, SplashActivity::class.java))

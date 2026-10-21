@@ -7,12 +7,12 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import java.util.Calendar
-import com.google.firebase.auth.FirebaseAuth
+import com.example.careium.core.database.authentication.LocalAccountStore
 
 class MealPlanStore(context: Context) {
     // Keep plans, profile, and grocery state in a separate private store for each signed-in account.
     // A signed-out user still gets a local-only store.
-    private val accountId = if (context.getSharedPreferences("menuwise_local", Context.MODE_PRIVATE).getBoolean("offline_mode", false)) "local" else FirebaseAuth.getInstance().currentUser?.uid ?: "local"
+    private val accountId = LocalAccountStore.currentAccountId(context)
     private val preferences = context.getSharedPreferences("meal_plans_${accountId}", Context.MODE_PRIVATE)
 
     fun dates(): List<String> = preferences.all.keys.filter { it.matches(Regex("\\d{4}-\\d{2}-\\d{2}")) }.sortedDescending()

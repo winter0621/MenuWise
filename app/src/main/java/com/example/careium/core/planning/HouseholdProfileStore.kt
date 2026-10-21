@@ -1,7 +1,7 @@
 package com.example.careium.core.planning
 
 import android.content.Context
-import com.google.firebase.auth.FirebaseAuth
+import com.example.careium.core.database.authentication.LocalAccountStore
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -9,9 +9,7 @@ data class HouseholdProfile(val id: String, val name: String, val preferences: S
 
 /** Local household preference profiles. They intentionally do not copy or merge meal records. */
 class HouseholdProfileStore(context: Context) {
-    private val accountId = if (context.getSharedPreferences("menuwise_local", Context.MODE_PRIVATE).getBoolean("offline_mode", false)) {
-        "local"
-    } else FirebaseAuth.getInstance().currentUser?.uid ?: "local"
+    private val accountId = LocalAccountStore.currentAccountId(context)
     private val prefs = context.getSharedPreferences("household_profiles_$accountId", Context.MODE_PRIVATE)
 
     fun profiles(): List<HouseholdProfile> = try {

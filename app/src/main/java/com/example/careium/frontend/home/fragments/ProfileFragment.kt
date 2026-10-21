@@ -13,6 +13,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.ViewModelProviders
 import com.example.careium.R
 import com.example.careium.core.database.authentication.InternetConnection
+import com.example.careium.core.database.authentication.LocalAccountStore
 import com.example.careium.core.database.realtime.UserData
 import com.example.careium.core.models.User
 import com.example.careium.databinding.FragmentProfileBinding
@@ -150,6 +151,9 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
                     .putFloat("desired_weight", updated.desiredWeight)
                     .putString("gender", if (updated.gender == Gender.Female) "Female" else "Male")
                     .putString("goal", updated.futureGoal?.name).apply()
+                if (prefs.getString("current_email", null) != null) {
+                    LocalAccountStore(requireContext()).saveProfile(updated)
+                }
                 val offline = prefs.getBoolean("offline_mode", false)
                 if (!offline && InternetConnection.isConnected(requireContext())) UserData().saveUserData(updated)
                 else if (!offline) Toast.makeText(requireContext(), "网络不可用，资料已保存在本机", Toast.LENGTH_SHORT).show()

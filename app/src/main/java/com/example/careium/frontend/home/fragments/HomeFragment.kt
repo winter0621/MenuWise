@@ -14,7 +14,7 @@ import com.example.careium.frontend.factory.NutritionViewModel
 import com.example.careium.frontend.home.activities.AiCalorieActivity
 import com.example.careium.frontend.home.activities.MealPlanActivity
 import com.example.careium.frontend.home.activities.WellnessInsightsActivity
-import com.google.firebase.auth.FirebaseAuth
+import com.example.careium.core.database.authentication.LocalAccountStore
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -100,8 +100,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private fun waterIntake(date: String): Int {
         val context = requireContext()
-        val offline = context.getSharedPreferences("menuwise_local", 0).getBoolean("offline_mode", false)
-        val account = if (offline) "local" else FirebaseAuth.getInstance().currentUser?.uid ?: "local"
+        val account = LocalAccountStore.currentAccountId(context)
         return context.getSharedPreferences("water_intake", 0).getInt("$account:$date", 0)
     }
 

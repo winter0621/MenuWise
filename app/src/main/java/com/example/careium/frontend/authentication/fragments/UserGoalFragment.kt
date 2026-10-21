@@ -10,10 +10,8 @@ import androidx.lifecycle.ViewModelProviders
 import com.example.careium.R
 import com.example.careium.core.authentication.Authenticator
 import com.example.careium.core.database.authentication.AuthViewModel
-import com.example.careium.core.database.authentication.InternetConnection
-import com.example.careium.core.database.authentication.Register
+import com.example.careium.core.database.authentication.LocalAccountStore
 import com.example.careium.core.database.authentication.SharedPreferences
-import com.example.careium.core.database.realtime.UserData
 import com.example.careium.databinding.LayoutErrorCustomViewBinding
 import com.example.careium.databinding.FragmentUserGoalBinding
 import com.example.careium.frontend.authentication.activities.SplashActivity
@@ -80,19 +78,18 @@ class UserGoalFragment : Fragment(R.layout.fragment_user_goal) {
     }
 
     private fun createNewAccount() {
-        if (InternetConnection.isConnected(this.requireContext())) {
-            setSubmitting(true)
-            val register = Register(user.email, user.password)
-            register.createNewAccount(authViewModel)
+        setSubmitting(true)
+        val error = LocalAccountStore(requireContext()).register(user)
+        if (error == null) {
+            authViewModel.mutableIsAuthComplete.value = true
         } else {
-            alert(getString(R.string.error_title), getString(R.string.no_internet_connection))
+            authViewModel.mutableAuthError.value = error
         }
     }
 
     private fun observeAuthCallBackChange() {
         authViewModel.mutableIsAuthComplete.observe(viewLifecycleOwner) { isLogged ->
             if (isLogged) {
-                saveDataOnDatabase()
                 commitEmailOnSharedPreference()
                 openMainActivity()
             }
@@ -103,11 +100,6 @@ class UserGoalFragment : Fragment(R.layout.fragment_user_goal) {
                 alert(getString(R.string.error_title), message)
             }
         }
-    }
-
-    private fun saveDataOnDatabase() {
-        val userData = UserData()
-        userData.saveUserData(user)
     }
 
     private fun commitEmailOnSharedPreference() {

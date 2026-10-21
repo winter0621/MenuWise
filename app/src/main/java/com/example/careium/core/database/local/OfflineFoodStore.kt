@@ -1,12 +1,13 @@
 package com.example.careium.core.database.local
 
 import android.content.Context
+import com.example.careium.core.database.authentication.LocalAccountStore
 import org.json.JSONArray
 import org.json.JSONObject
 
 /** Device-local meal log used by guest/offline mode. */
 class OfflineFoodStore(context: Context) {
-    private val preferences = context.getSharedPreferences("offline_food_log", Context.MODE_PRIVATE)
+    private val preferences = context.getSharedPreferences("offline_food_log_" + LocalAccountStore.currentAccountId(context), Context.MODE_PRIVATE)
 
     fun add(name: String, nutrition: List<Float>) {
         val entries = read()

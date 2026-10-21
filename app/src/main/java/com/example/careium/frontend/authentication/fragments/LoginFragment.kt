@@ -10,8 +10,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.example.careium.R
 import com.example.careium.core.authentication.Authenticator
 import com.example.careium.core.database.authentication.AuthViewModel
-import com.example.careium.core.database.authentication.InternetConnection
-import com.example.careium.core.database.authentication.Login
+import com.example.careium.core.database.authentication.LocalAccountStore
 import com.example.careium.core.database.authentication.SharedPreferences
 import com.example.careium.databinding.LayoutErrorCustomViewBinding
 import com.example.careium.databinding.FragmentLoginBinding
@@ -79,23 +78,26 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
     }
 
     private fun hasAccount() {
-        if (InternetConnection.isConnected(this.requireContext())) {
-            val login = Login(email, password)
-            login.isUserLoggedIn(authViewModel)
-        } else
-            Toast.makeText(activity, getString(R.string.login_network_error), Toast.LENGTH_SHORT)
-                .show()
+        val error = LocalAccountStore(requireContext()).login(email, password)
+        if (error == null) {
+            authViewModel.mutableIsAuthComplete.value = true
+        } else {
+            authViewModel.mutableAuthError.value = error
+        }
     }
 
     private fun observeAuthCallBackChange() {
         authViewModel.mutableIsAuthComplete.observe(viewLifecycleOwner) { isLogged ->
-            if (isLogged) {
+            if (isLogged == true) {
                 showProgress()
                 commitEmailOnSharedPreference()
                 openMainActivity()
-            } else
-                Toast.makeText(activity, getString(R.string.login_failed_message), Toast.LENGTH_SHORT)
-                    .show()
+            }
+        }
+        authViewModel.mutableAuthError.observe(viewLifecycleOwner) { message ->
+            if (!message.isNullOrBlank()) {
+                Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
+            }
         }
     }
 

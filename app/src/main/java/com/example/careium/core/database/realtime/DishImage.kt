@@ -11,6 +11,7 @@ import android.widget.GridView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import com.example.careium.core.adapters.GridViewAdapter
+import com.example.careium.core.database.authentication.LocalAccountStore
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.component1
@@ -42,7 +43,8 @@ class DishImage {
         @JvmStatic
         fun saveLocalImage(context: Context, image: Bitmap) {
             val day = "${LocalDateTime.now().dayOfMonth} ${LocalDateTime.now().monthValue}"
-            val folder = File(context.filesDir, "local_food_images/$day").apply { mkdirs() }
+            val account = LocalAccountStore.currentAccountId(context)
+            val folder = File(context.filesDir, "local_food_images/$account/$day").apply { mkdirs() }
             FileOutputStream(File(folder, "${System.currentTimeMillis()}.jpg")).use {
                 image.compress(Bitmap.CompressFormat.JPEG, 88, it)
             }
@@ -58,7 +60,8 @@ class DishImage {
         ) {
 
             if (context.getSharedPreferences("menuwise_local", Context.MODE_PRIVATE).getBoolean("offline_mode", false)) {
-                val folder = File(context.filesDir, "local_food_images/$day")
+                val account = LocalAccountStore.currentAccountId(context)
+                val folder = File(context.filesDir, "local_food_images/$account/$day")
                 val images = folder.listFiles()?.sortedByDescending { it.lastModified() }.orEmpty()
                     .mapNotNull { BitmapFactory.decodeFile(it.absolutePath) }
                 gridView.adapter = GridViewAdapter(context, ArrayList(images))
